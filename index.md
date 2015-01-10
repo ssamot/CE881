@@ -14,7 +14,7 @@ The lecture notes and lab scripts for this course will be made available and fur
 ## Lectures
 Lectures take place on **Tuesday 09:00-11:00 at Room TC1.12** in the Teaching centre. 
 
-* [Introduction (Apps and the Android platform)](./01-Introduction-slides.pdf), [Handouts](01-Introduction-handouts.pdf)
+* [Introduction (Apps and the Android platform)](./slides/01-Introduction-slides.pdf), [Handouts](./slides/01-Introduction-handouts.pdf)
 
 ## Labs
 Labs are every **Thursday 13:00-15:00, CES Lab 3**. Be sure to work through the labs carefully, and to check that you understand the material and can answer the quiz questions (where applicable) at the end.

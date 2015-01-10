@@ -13,7 +13,7 @@ theme: Warsaw
 * 10 weeks
 * Each week:
 	* 2-hour lecture (including group discussion and software demos)
-	* 3-hour lab: practice writing and debugging apps
+	* 2-hour lab: practice writing and debugging apps
 * Assessment:
 	* 2 assignments
 		* App prototype (20%, wk 19)

@@ -1,0 +1,115 @@
+body {
+margin: 0px;
+padding: 0px;
+background-image: url(graphics/labs/Android_Robot_200.png);
+background-repeat: no-repeat;
+background-position: 40px 30px;
+color: #2d2e2e;
+/* background-color: #DDC084; */
+font-family: Helvetica;
+font-size: 13px;
+}
+
+
+
+.main a {
+
+text-decoration: none;
+}
+
+
+h1 {
+font-size: 30px;
+
+}
+
+h2{
+font-size: 130%;
+}
+
+
+.title{
+position: relative;
+left: 380px;
+width: 400px;
+top: 10px;
+}
+
+
+
+.leftNav {
+position: relative;
+top: 280px;
+text-agn: left;
+margin: 0px 0px 0px 40px;
+
+}
+
+.leftNav  a{
+
+font-size: 130%;
+text-decoration: underne;
+padding: 0px;
+
+}
+
+.leftNav ul > li {
+  font-size: 0;
+}
+
+.leftNav ul > li > ul > li {
+    font-size: 13px;
+}
+
+.main {
+clear: left;
+position: relative;
+top: -130px;
+left: 300px;
+width: 50%;
+padding-bottom: 7em; 
+text-align:justify;
+text-justify:inter-word;
+}
+
+
+html, body, #container { height: 100%;  }
+
+body > #container { height: auto; min-height: 100%; }
+
+
+#footer {
+ 
+
+  clear: both;
+  font-size: 1.2em;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin: 0px 0px 0px 340px;
+  left: 340px;
+width: 50%;
+ height: 3em;
+ margin-top: -10em;
+}
+ 
+#footer ul {
+  list-style-type: none;
+  padding: 0;
+  display: -moz-inline-box; /* For FF<3 */
+  display: inline-block; /* IE <8 needs this tripped back to display: inline; to make it work on block elements - see conditional below */
+ vertical-align: middle; /* explicitly declare your preference as Moz inline-box auto aligns to top */
+  margin-left: auto; margin-right: auto;
+}
+
+#footer-spacer {
+    height: 180px;
+}
+
+#footer ul li {
+  float: left;
+  padding-right: 10px;
+  border-right: 1px solid #ccc;
+  padding-left: 10px;
+}
+

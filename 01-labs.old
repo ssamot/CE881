@@ -1,0 +1,120 @@
+
+
+
+# CE881 Lab 1: Introduction
+
+![Gradient flow In Android](./img14.jpg)
+
+
+
+
+## Introduction
+
+The aim of this lab is to gain familiarity with using a Java IDE together with the Android development tools.  You are assumed to be familiar with Java and Java IDEs in general, and ideally with Eclipse or Intellij in particular.  If not then seek assistance from the lab or module supervisor
+
+The lab will work through various versions of a Hello World program and introduce some important concepts in the process, finishing off with a quiz.  Concepts include:
+
+* Building and running a Hello World program
+* Defining a custom view component
+* Editing XML files to create a GUI
+* Drawing text and setting various Paint parameters
+* Simple event handling
+
+
+## Hello World
+
+Hello World
+
+Using your preferred IDE set up an Android project and follow the wizard to set up a default Hello World app.
+
+I've shown this process below for Intellij 12; other IDEs will differ in the exact steps and options available and the end result will most likely look different, but the overall goal will be similar: to implement and run the simplest possible Android App that says, in some way, "Hello World".  Note: of course the file paths will be different for you, and the Project SDK may also be different.
+
+
+![](./img2.jpg)
+
+Choose the project name and file path (folder) then click next to get to this dialog box:
+
+
+![](./img3.jpg)
+
+Accept the defaults by clicking Finish.
+
+You are now ready to run your App.  Do this either on a real Android device, or using an emulator.  From the tools menu of your IDE start the emulator.  This will give you a choice of emulators to use: the Nexus 7 is a reasonable choice, allowing a good size screen view by default.
+
+The emulator takes several minutes to start: use this time to explore the project that has been created by the IDE.
+
+Find out what the following folders and files are used for: (some are more obvious than others!).  You can find more details here: <http://developer.android.com/tools/>projects/index.html
+
+* assets
+* res
+* gen
+* lib
+* src
+* AndroidManifest.xml
+* main.xml
+
+When the emulator has started it should look something like this:
+
+![](./img5.jpg)
+
+When you run the App it might look something like this
+
+![](./img6.jpg )
+
+The auto-generated Activity class is shown below:
+
+![](./img9.gif)
+
+
+Now, using the navigation features of your IDE, find the definition of **R.layout.main**. 
+
+It should take you to a file called **main.xml** where the layout of the view is defined.  Here the root view is a container of type **LinearLayout**, which has a **TextView** with the text set to "Hello World, My Activity" as its sole child.  When creating views the widths and heights can be specified in absolute units, but it is more common to specify them in relation to parent size (e.g., fill_parent) or to their content (e.g., wrap_content). 
+
+*Question:* why do you think the **TextView** has defaulted to this particular specification of width and height?
+
+![](./mg11.jpg)
+
+The **onCreate** method is called just prior to an application starting, and is the method where the main **View** should be set.  You can change the onCreate method, but be sure that you keep the **super.onCreate()** method call as the first line.
+
+
+## Creating a Custom View
+
+Android graphical components subclass the *View* class.  You can write your own custom view classes to display information in ways most appropriate for your App.
+
+We're going to take a first look now at how to do this.  The most basic method to override is **onDraw**.
+
+We'll write a **View** class called **HelloView** that displays the message "Hello World" in large letters in the middle of the View.  **HelloView** must extend the **View** class.  It must also have three constructors that call the View superclass constructor.  Your IDE should be able to auto-create these for you, such that you get this:
+
+![](./img11.jpg)
+
+Which constructor gets called depends on how the view is invoked.  Let's label these in order as constructors 1, 2 and 3.  Modify the above constructors to print a message indicating which one was invoked.
+
+## Android Logcat
+
+Tip: all System.out calls go to the Android Logcat, available as a window within your IDE.  But LOTS of messages get sent there, so use a filter to show only the relevant ones.
+
+This may be done by defining a tag String within your class or within your project, and then prefixing print statements with this.  Android has a built in Log class which can be used, but you can can also use standard Java output methods (I prefer the latter approach, since this will also work when running as stand-alone Java code).
+
+![](./img12.jpg)
+
+Rewrite the other constructors in a similar way.  Later we'll look at the Logcat to see which one is invoked.
+
+Now we'll override the onDraw method to say HelloWorld in large letters using some chosen colours.
+
+There are two key classes we need to do this: Canvas and Paint.  The Canvas class is like the Graphics class from java.awt, while there is no direct equivalent to Paint in regular Java.  In Android an object of class Paint is used to specify most aspects of how a shape or string of text is drawn, including:
+
+
+
+* Colour
+* Fill style (e.g. Stroke or Fill)
+* Fill / stroke pattern (e.g. see Shader class)
+* Anti-aliasing 
+* Font
+
+One other big difference between Android and awt is that Android uses floats (floating point numbers) to specify coordinates rather than ints.  This is a very welcome change!
+
+Type in the code for the onDraw method as follows.
+
+![](./img13.jpg)
+
+

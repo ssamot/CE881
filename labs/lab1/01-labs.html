@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="../../labs.css" type="text/css" />
+</head>
+<body>
+
+ <div id="container">
+<div class="leftNav">
+<ul>
+<li><a href="#ce881-lab-1-introduction">CE881 Lab 1: Introduction</a><ul>
+<li><a href="#hello-world">Hello World</a></li>
+<li><a href="#creating-a-custom-view">Creating a Custom View</a></li>
+<li><a href="#android-logcat">Android Logcat</a></li>
+<li><a href="#programming-exercise">Programming Exercise</a></li>
+<li><a href="#flexible-styling">Flexible Styling</a></li>
+<li><a href="#handling-events">Handling Events</a></li>
+<li><a href="#quiz">Quiz</a></li>
+</ul></li>
+</ul>
+</div>
+<div class="main">
+<h1 id="ce881-lab-1-introduction">CE881 Lab 1: Introduction</h1>
+<p>The aim of this lab is to gain familiarity with using a Java IDE together with the Android development tools.  You are assumed to be familiar with Java and Java IDEs in general, and ideally with Eclipse or Intellij in particular.  If not then seek assistance from the lab or module supervisor.</p>
+<div class="figure">
+<img src="img14.jpg" alt="Hello World!" /><p class="caption">Hello World!</p>
+</div>
+<p>The lab will work through various versions of a Hello World program and introduce some important concepts in the process, finishing off with a quiz.  Concepts include:</p>
+<ul>
+<li>Building and running a Hello World program</li>
+<li>Defining a custom view component</li>
+<li>Editing XML files to create a GUI</li>
+<li>Drawing text and setting various Paint parameters</li>
+<li>Simple event handling</li>
+</ul>
+<h2 id="hello-world">Hello World</h2>
+<p>Using your preferred IDE set up an Android project and follow the wizard to set up a default Hello World app.</p>
+<p>I’ve shown this process below for Intellij 12; other IDEs will differ in the exact steps and options available and the end result will most likely look different, but the overall goal will be similar: to implement and run the simplest possible Android App that says, in some way, “Hello World”.  <strong>Note</strong>: of course the file paths will be different for you, and the Project SDK may also be different.</p>
+<div class="figure">
+<img src="img2.jpg" alt="New Android Project" /><p class="caption">New Android Project</p>
+</div>
+<p>Choose the project name and file path (folder) then click next to get to this dialog box:</p>
+<div class="figure">
+<img src="img3.jpg" alt="Create Default Activity" /><p class="caption">Create Default Activity</p>
+</div>
+<p>Accept the defaults by clicking Finish.</p>
+<p>You are now ready to run your App.  Do this either on a real Adnroid device, or using an emulator.  From the tools menu of your IDE start the emulator.  This will give you a choice of emulators to use: the <strong>Nexus 7</strong> is a reasonable choice, allowing a good size screen view by default.</p>
+<p>The emulator takes several minutes to start: use this time to explore the project that has been created by the IDE.</p>
+<p>Find out what the following folders and files are used for: (some are more obvious than others!).  You can find more details here: <a href="http://developer.android.com/tools/projects/index.html" class="uri">http://developer.android.com/tools/projects/index.html</a></p>
+<ul>
+<li>assets</li>
+<li>res</li>
+<li>gen</li>
+<li>lib</li>
+<li>src</li>
+<li>AndroidManifest.xml</li>
+<li>main.xml</li>
+</ul>
+<p>When the emulator has started it should look something like this:</p>
+<div class="figure">
+<img src="img5.jpg" alt="Emulator Home Screen" /><p class="caption">Emulator Home Screen</p>
+</div>
+<p>When you run the App it might look something like this (top of screen only is shown)</p>
+<div class="figure">
+<img src="img6.jpg" alt="Hello World App" /><p class="caption">Hello World App</p>
+</div>
+<p>The auto-generated Activity class is shown below:</p>
+<div class="figure">
+<img src="img6.gif" alt="Activity Class Java Code" /><p class="caption">Activity Class Java Code</p>
+</div>
+<p>Now, using the navigation features of your IDE, find the definition of <strong>R.layout.main</strong>. </p>
+<p>It should take you to a file called <strong>main.xml</strong> where the layout of the view is defined.  Here the root view is a container of type <strong>LinearLayout</strong>, which has a <strong>TextView</strong> with the text set to “Hello World, My Activity” as its sole child.  When creating views the widths and heights can be specified in absolute units, but it is more common to specify them in relation to parent size (e.g. fill_parent) or to their content (e.g. wrap_content). </p>
+<p><strong>Question:</strong> why do you think the <strong>TextView</strong> has defaulted to this particular specification of width and height?</p>
+<div class="figure">
+<img src="img11.jpg" alt="main.xml" /><p class="caption">main.xml</p>
+</div>
+<p>The <strong>onCreate</strong> method is called just prior to an application starting, and is the method where the main <strong>View</strong> should be set.  You can change the <strong>onCreate</strong> method, but be sure that you keep the <strong>super.onCreate()</strong> method call as the first line.</p>
+<h2 id="creating-a-custom-view">Creating a Custom View</h2>
+<p>Android graphical components subclass the <strong>View</strong> class.  You can write your own custom view classes to display information in ways most appropriate for your App.</p>
+<p>We’re going to take a first look now at how to do this.  The most basic method to override is <strong>onDraw</strong>.</p>
+<p>We’ll write a <strong>View</strong> class called <strong>HelloView</strong> that displays the message “Hello World” in large letters in the middle of the View.  <strong>HelloView</strong> must extend the <strong>View</strong> class.  It must also have three constructors that call the <strong>View</strong> superclass constructor.  Your IDE should be able to auto-create these for you, such that you get this:</p>
+<div class="figure">
+<img src="img8.gif" alt="HelloView Skeleton" /><p class="caption">HelloView Skeleton</p>
+</div>
+<p>Which constructor gets called depends on how the view is invoked.  Let’s label these in order as constructors 1, 2 and 3.  Modify the above constructors to print a message indicating which one was invoked.</p>
+<h2 id="android-logcat">Android Logcat</h2>
+<p>Tip: all System.out calls go to the Android Logcat, available as a window within your IDE.  But LOTS of messages get sent there, so use a filter to show only the relevant ones.</p>
+<p>This may be done by defining a tag String within your class or within your project, and then prefixing print statements with this.  Android has a built in Log class which can be used, but you can can also use standard Java output methods (I prefer the latter approach, since this will also work when running as stand-alone Java code).</p>
+<p>The new tag definition and first constructor is:</p>
+<div class="figure">
+<img src="img2.gif" alt="Example printout" /><p class="caption">Example printout</p>
+</div>
+<p>Rewrite the other constructors in a similar way.  Later we’ll look at the Logcat to see which one is invoked.</p>
+<p>Now we’ll override the <strong>onDraw</strong> method to say HelloWorld in large letters using some chosen colours.</p>
+<p>There are two key classes we need to do this: <strong>Canvas</strong> and <strong>Paint</strong>.  The Canvas class is like the Graphics class from java.awt, while there is no direct equivalent to <strong>Paint</strong> in regular Java.  In Android an object of class <strong>Paint</strong> is used to specify most aspects of how a shape or string of text is drawn, including:</p>
+<ul>
+<li>Colour</li>
+<li>Fill style (e.g. Stroke or Fill)</li>
+<li>Fill / stroke pattern (e.g. see <a href="http://developer.android.com/reference/android/graphics/Shader.html">Shader</a> class)</li>
+<li>Anti-aliasing</li>
+<li>Font</li>
+</ul>
+<p>One other big difference between Android and awt is that Android uses <strong>float</strong>s (floating point numbers) to specify coordinates rather than <strong>int</strong>s.  This is a very welcome change!</p>
+<p>Type in the code for the onDraw method as follows.</p>
+<div class="figure">
+<img src="imgB.gif" alt="onDraw method for HelloView" /><p class="caption">onDraw method for HelloView</p>
+</div>
+<p>Note that this sample code includes some bad programming style: it relies on many hard-coded constants.  Don’t worry, this is just to show the basic idea of how to draw text of a particular size and to set paint colours.  You’ll write a much improved version as part of the lab. </p>
+<p> </p>
+<p>We now need to ensure that the view is actually used.  The quickest way to do this is to modify the onCreate() method of MyActivity as follows:</p>
+<div class="figure">
+<img src="imgD.gif" alt="Modified onCreate method" /><p class="caption">Modified onCreate method</p>
+</div>
+<p>Now when you run the App it should appear as follows (exact size will depend on the emulator used)</p>
+<div class="figure">
+<img src="imgA.jpg" alt="Hello View 1" /><p class="caption">Hello View 1</p>
+</div>
+<p>While the app is running look at the Logcat (the exact details will differ depending on the IDE).  You’ll see that with the current version of the code constructor 1 was invoked:</p>
+<div class="figure">
+<img src="img10.jpg" alt="Logcat sample" /><p class="caption">Logcat sample</p>
+</div>
+<p><strong>Note:</strong> you can also modify an XML to incorporate the HelloView component instead of calling the HelloView constructor directly in the onCreate() method.  To do this revert to the previous onCreate implementation of MyActivity with the line:</p>
+<pre><code> setContentView(R.layout.main);</code></pre>
+<p>but add HelloView as a custom component in the <strong>main.xml</strong> file.  Try doing this both as a drag and drop operation in the GUI designer, and by editing the <strong>main.xml</strong> file in text.</p>
+<p>For example, you can replace the TextView with a HelloView:</p>
+<div class="figure">
+<img src="img7.gif" alt="XML layout with HelloView" /><p class="caption">XML layout with HelloView</p>
+</div>
+<p>Or simply have HelloView as the root view:</p>
+<div class="figure">
+<img src="img12.jpg" alt="HelloView as Root" /><p class="caption">HelloView as Root</p>
+</div>
+<p><strong>Question</strong>: which constructor is invoked now when you run the App.?</p>
+<h2 id="programming-exercise">Programming Exercise</h2>
+<p>Although the HelloView component sort of works, it’s not very nice!  The exercise is to improve it in the following ways:</p>
+<ol style="list-style-type: decimal">
+<li>Modify the <strong>onDraw</strong> method so that ALL hard-coded constants are removed from that method.  Check with a lab assistant that you have done this satisfactorily.  They can be declared as static variables for now.</li>
+<li>Modify the <strong>x</strong> and <strong>y</strong> values so that the text is always drawn in the exact centre of <strong>HelloView</strong>.</li>
+<li>Modify the font size so that it is always some fraction (e.g. 1/4) of the minimum view dimension (i.e. the minimum of the view height and width.</li>
+<li>Currently the text looks a bit jagged: switch on AntiAlisasing to improve this.</li>
+<li>Experiment with different Fonts</li>
+<li>Experiment with fill effects in Paint objects (by setting up Shaders)</li>
+<li>Experiment with changing the screen orientation to portrait and to landscape, both in the App and on the emulator or device.</li>
+</ol>
+<p>The following snip shows the two versions of the text: one is antialiased, can you tell which?</p>
+<div class="figure">
+<img src="HelloAntiAliased.PNG" alt="Anti Aliasing" /><p class="caption">Anti Aliasing</p>
+</div>
+<p><strong>Tip:</strong> it is generally better to draw things with AntiAliasing on: they will look better.  Many devices will handle the extra processing in hardware: you won’t normally notice any difference in speed.</p>
+<p>A version with the text properly centred is shown below:</p>
+<div class="figure">
+<img src="img13.jpg" alt="Hello Centred Text" /><p class="caption">Hello Centred Text</p>
+</div>
+<p>Hint: to help achieve this you can find the bounding rectangle for the text you’re going to draw using this code within the <strong>onDraw</strong> method of <strong>HelloView</strong>:</p>
+<pre><code>Rect bounds = new Rect();
+textPaint.getTextBounds(text, 0, text.length(), bounds);</code></pre>
+<p>Obviously you should do this AFTER setting the desired text size!</p>
+<h2 id="flexible-styling">Flexible Styling</h2>
+<p>Experiment with more style settings for the text and the background.  Try to work out a way of setting a theme whereby you can change many aspects of the style very simply.  For example, can you find a solution such that changing a single line of code or of XML can completely change the foreground and background styles?</p>
+<h2 id="handling-events">Handling Events</h2>
+<p>We’ll now study a simple example of event handling.  When views are touched, onClick events are generated and sent to them.</p>
+<p>There are two main steps to handling events:</p>
+<ol style="list-style-type: decimal">
+<li>Define an implementation of the desired event handling method, in this case <strong>onClick</strong>.</li>
+<li>Ensure that the object handling the event (i.e. the object that has the onClick method) is added as a listener to the View that will be the source of these events.</li>
+</ol>
+<p>In the example below, I’ve added an onClick method to the HelloView class.</p>
+<p> <img src="imgA.gif" alt="onClick method implementation" /></p>
+<p>In this very simple example, objects of class HelloView will be both the source and the destination of the onClick events.  Because they are the destination we need to declare them as handling these events.  This is done by declaring that HelloView now implements the appropriate interface, in this case: View.OnClickListener.</p>
+<p>Because <strong>HelloView</strong> is also the source of the click events, we need to register itself as the listener.  This is done via a call to <strong>setOnClickListener</strong>.  This is all illustrated as follows:</p>
+<div class="figure">
+<img src="imgC.gif" alt="Clickable HelloView" /><p class="caption">Clickable HelloView</p>
+</div>
+<p>Now put all this together and check that clicking anywhere on the HelloView component causes a random colour change e.g.:</p>
+<div class="figure">
+<img src="imgE.jpg" alt="Hello Random World" /><p class="caption">Hello Random World</p>
+</div>
+<p>Finally, this is my garish example of using radial and linear gradient shaders: (i.e. my solution to part 6 of the programming exercise).</p>
+<div class="figure">
+<img src="img15.jpg" alt="Gradient Shaders" /><p class="caption">Gradient Shaders</p>
+</div>
+<p> </p>
+<h2 id="quiz">Quiz</h2>
+<p>You should attempt all the questions in the following quiz.  You can find some of the answers in the lab work you’ve already done: some others you may need to search for.</p>
+<ol style="list-style-type: decimal">
+<li>Which XML file specifies the name of the App?</li>
+<li>Which XML file specifies the components and layout of the GUI?  In which folder is the file located?</li>
+<li>What are the strengths and weaknesses of specifying GUI layouts in XML versus in the app’s Java code?</li>
+<li>What does the “@” specify in an XML attribute? (<strong>android:text=“<span class="citation">@string/hello</span>_world”</strong>)</li>
+<li>When specifying the width or the height of a component what do “fill_parent” and “wrap_content” mean?</li>
+<li>What does DDMS stand for?</li>
+<li>What is the origin of the Java code in the <strong>gen</strong> directory, and why should you never edit it directly?</li>
+<li>Why should you start an AVD (Android Virtual Device) at the start of a programming session and then leave the device running?</li>
+</ol>
+<p> </p>
+<p> </p>
+</div>
+</div>
+</body>
+</html>

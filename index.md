@@ -19,7 +19,7 @@ Lectures take place on **Tuesday 09:00-11:00 at Room TC1.12** in the Teaching ce
 ## Labs
 Labs are every **Thursday 13:00-15:00, CES Lab 3**. Be sure to work through the labs carefully, and to check that you understand the material and can answer the quiz questions (where applicable) at the end.
 
-*  Lab 1
+* [Lab 1: Hello World and beyond](./labs/lab1/01-labs.html)
 
 ## Sample Apps
 [Multi-Arm Bandit](https://play.google.com/store/search?q=multi-arm+bandit)

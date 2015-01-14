@@ -1,7 +1,7 @@
 body {
 margin: 0px;
 padding: 0px;
-background-image: url(graphics/labs/Android_Robot_200.png);
+background-image: url(./graphics/Android_Robot_200.png);
 background-repeat: no-repeat;
 background-position: 40px 30px;
 color: #2d2e2e;
@@ -41,7 +41,7 @@ top: 10px;
 position: relative;
 top: 280px;
 text-agn: left;
-margin: 0px 0px 0px 40px;
+margin: 0px 0px 0px 00px;
 
 }
 

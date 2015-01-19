@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD><TITLE>CE881: ValueSlider Hints</TITLE>
+    <META http-equiv=Content-Type content="text/html; charset=windows-1252">
+    <META http-equiv=Content-Language content=en-gb>
+    <link rel="stylesheet" type="text/css" href="../css/toc.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/basic.css"/>
+
+    <SCRIPT language=JavaScript src="../js/newtoc.js">
+    </SCRIPT>
+
+</HEAD>
+<BODY onload=toc()>
+<TABLE>
+<TBODY>
+<TR>
+<TD class=sidebar vAlign=top>
+    <DIV id=toc></DIV>
+</TD>
+<TD>
+<H2>CE881: ValueSlider Hints</H2>
+<DIV class=main>
+<H3><a name="Outline">Outline</a></H3>
+	<p>The solution is split into four classes: a modified version of 
+	LissajousView, a new ValueSlider class, an interface called 
+	ValueChangeListener and the main activity, in this case called MyActivity.</p>
+	<p><img alt="Class Diagram" src="img4.jpg"></p>
+	<p>The diagram above shows that MyActivity creates LissajousView and 
+	ValueSlider objects, that each ValueSlider has a reference to a single 
+	ValueChangeListener, and that LissajousView implements the 
+	ValueChangeListener interface.</p>
+	<H3><a name="ValueSlider">ValueSlider</a></H3>
+	<p>Each ValueSlider object connects a SeekBar with a TextField, as shown 
+	below:&nbsp; (sorry about the poor image!)</p>
+	<p><img alt="ValueSlider Image" src="img5.jpg"></p>
+	<p>ValueSliders in my design also know about scaling factors, and the number 
+	of significant digits to show after the decimal point.&nbsp; This leads to 
+	the following class declaration:</p>
+	<p><img alt="ValueSlider Declaration" src="img6.gif"></p>
+	<p>Next we consider the constructor.&nbsp; This is where we'll set up the 
+	event handler for the SeekBar, plus of course assigning the instance 
+	variables.&nbsp; I've split the constructor into two images below: this is 
+	all within the same constructor.&nbsp; First we assign the instance 
+	variables and instantiate the TextView and SeekBar, setting up the layout 
+	parameters (similar to how they were specified in the XML version).</p>
+	<p><img alt="ValueSlider Constructor Part One" src="img8.gif"></p>
+	<p>Next we set up the SeekBar event handler.&nbsp; When a SeekBar is 
+	adjusted, we need to calculate the new value by dividing the progress by the 
+	range, change the value in the text field, then call the ValueChangeListener 
+	to notify it of the new value.</p>
+	<p><img alt="ValueSlider Constrcutor (Continued)" src="imgA.gif"></p>
+	<h3><a name="ValueChangeListener">ValueChangeListener</a></h3>
+	<p>This interface is really simple:</p>
+	<p><img alt="ValueChangeListener" src="imgC.gif"></p>
+	<h3><a name="LissajousView">LissajousView</a></h3>
+	<p>This class is similar to the previous one, except that now the variables 
+	are stored in a TreeMap, with the names of the variables set up as static 
+	variables.&nbsp; Note the new addition to the init() method where some 
+	default values are added to the map.</p>
+	<p><img alt="LissajousView vars and init()" src="img10.gif"></p>
+	<p>The other change required is to retrieve the variables from the Map each 
+	time the curve is drawn.&nbsp; Hence, the first part of drawTrack now 
+	becomes (with the new lines highlighted).</p>
+	<p><img alt="drawTrack()" src="img12.gif"></p>
+	<p>The rest of it remains unchanged.</p>
+	<h3><a name="MyActivity">MyActivity</a></h3>
+	<p>Compare this to thre previous version and note how compact this one is.&nbsp; 
+	In particular note the use of the loop over the set of keys on the <strong>
+	vars</strong> TreeMap, setting up a ValueSlider for each one, assigning the 
+	lissajousView object to listen for events, and adding it to the root layout.</p>
+	<p><img alt="MyActivity" src="imgE.gif"></p>
+	<p>This new version is shorter and makes better use of reusable code, though 
+	it took more effort to develop.&nbsp; Was the effort worth it?&nbsp; Discuss 
+	...</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+
+<P class=end>end of page
+
+<P class=end>&nbsp;</P></DIV>
+</TD>
+</TR>
+</TBODY>
+</TABLE>
+</BODY>
+</HTML>

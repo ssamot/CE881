@@ -15,11 +15,13 @@ The lecture notes and lab scripts for this course will be made available and fur
 Lectures take place on **Tuesday 09:00-11:00 at Room TC1.12** in the Teaching centre. 
 
 * [Introduction (Apps and the Android platform)](./slides/01-Introduction-slides.pdf), [Handouts](./slides/01-Introduction-handouts.pdf)
+* [Layouts (and dynamic view switching)](./slides/02-Layout-slides.pdf), [Handouts](./slides/02-Layout-handouts.pdf)
 
 ## Labs
 Labs are every **Thursday 13:00-15:00, CES Lab 3**. Be sure to work through the labs carefully, and to check that you understand the material and can answer the quiz questions (where applicable) at the end.
 
 * [Lab 1: Hello World and beyond](./labs/lab1/01-labs.html)
+* [Lab 2: Lab 2: Lights On!](./labs/lab2/02-labs.html)
 
 ## Sample Apps
 [Multi-Arm Bandit](https://play.google.com/store/search?q=multi-arm+bandit)
@@ -30,6 +32,18 @@ You can use whatever IDE you want for the course, however the three proposed one
 *  [IntelliJIDEA](http://www.jetbrains.com/idea/)
 *  [Eclipse](https://eclipse.org/)
 *  [Android Studio](http://developer.android.com/sdk/index.html)
+
+## Assessment
+
+The assessment schedule is listed below.  The main assignment is to produce an Android app; this is split into two parts to help ensure that you make steady progress.  Assignment 1 is to design and describe a prototype of your app.  Assignment 2 is to implement the complete app and write a report on it.
+
+Some ideas for possible apps are provided [here](./labs/suggestions/suggestions.html).
+
+* Progress Test (10%, wk 20)
+* Assignment 1 (TBA) (wk 21)
+* Assignment 2 (TBA) (wk 25)
+
+See timetable for progress test time and Online Coursework Submission (OCS) server for exact assignment deadline.  Be sure to observe the submission deadlines: late work gets zero.
 
 
 ## Reading List

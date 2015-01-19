@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="../../labs.css" type="text/css" />
+</head>
+<body>
+
+ <div id="container">
+<div class="leftNav">
+<ul>
+<li><a href="#ce881-lab-2-lights-on">CE881 Lab 2: Lights On!</a><ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#design-of-model">Design of Model</a></li>
+<li><a href="#model-implementation">Model Implementation</a></li>
+<li><a href="#exercise-one">Exercise One</a></li>
+<li><a href="#lightsview">LightsView</a></li>
+<li><a href="#exercise-two">Exercise Two</a></li>
+<li><a href="#note-1"> Note 1</a></li>
+</ul></li>
+</ul>
+</div>
+<div class="main">
+<h1 id="ce881-lab-2-lights-on">CE881 Lab 2: Lights On!</h1>
+<h2 id="introduction">Introduction</h2>
+<p>In this lab we’ll work through implementing a simple but fun puzzle app.  The lab has the following aims:</p>
+<ul>
+<li>To work reinforce the idea of separating the logical model of an App (which should ideally not utilise any Android-specific features) from the presentation / view and event handling.</li>
+<li>To experiment with event handling, including <strong>onClick</strong> and <strong>onTouch</strong> events.</li>
+<li>To refer to the Android API in order to utilise various features of it.</li>
+<li>To put view components together in a Layout (we’ll use a LinearLayout)</li>
+<li>To use a Button component, including handling Button events</li>
+</ul>
+<p>Thanks go to Yulia Bulgakova (a CE881 student from 2012/3) for bringing this puzzle to my attention, and to <a href="http://www.essex.ac.uk/maths/staff/profile.aspx?ID=1275">Alexei Vernitski</a> for designing the puzzle and providing a web-based implementation of it.  I call it the LightsOn puzzle.  For background interest, also see the <a href="#Note%201">Chromanode puzzle</a>.</p>
+<p>The rules of the puzzle are simple:</p>
+<ul>
+<li>The puzzle consists of a grid of n*n “light-up” switches.</li>
+<li>Each time you press a switch, that switch and all the ones horizontally and vertically in line with it flip state (i.e. on -&gt; off and off -&gt; on).</li>
+<li>The aim is to switch on as many as possible.  For an n*n grid the maximum number of on switches is (n*n) -1 (this is assuming that it does not start with them all on). </li>
+<li>If this many switches are on then the puzzle is solved.</li>
+<li>In one variation of the puzzle only on switches can be manually switched off (and off switches cannot be manually switched on)</li>
+</ul>
+<p>An example game state displayed on a basic version of the App is shown below.</p>
+<div class="figure">
+<img src="figures/LightsOnBasic.PNG" alt="Lights On Basic" /><p class="caption">Lights On Basic</p>
+</div>
+<h2 id="design-of-model">Design of Model</h2>
+<p>The model must be able to represent the state of each switch.  Since each switch is either on or off, the model state could be represented by a 2d array of boolean (i.e. boolean[][] grid).  In my implementation I chose instead to use a 2d array of int (i.e. int[][] grid).  One simple reason for this: flipping the state of a switch is just as easy, but now it’s possible to change the appearence of each square by using the switch state as an index into an array that controls the drawing style. (* see note 1).</p>
+<p>The class diagram for the model I implemented is given below.  We already mentioned the grid field.  There’s also a boolean variable called <strong>notStrict</strong>.  If this is true then any light can be manually flipped.  The int variable <strong>n</strong> conveniently stores the size of the <strong>n x n</strong> grid.</p>
+<div class="figure">
+<img src="figures/LightsModelClassDiagram.PNG" alt="LightsModel Class Diagram" /><p class="caption">LightsModel Class Diagram</p>
+</div>
+<h2 id="model-implementation">Model Implementation</h2>
+<p>Now work through implementing the model.  Create a new Android project by following a similar process as last week.  Now is also a good time to start up an emulator!</p>
+<p>The constructor takes the parameter <strong>n</strong> as an argument and creates the grid, which together with the aforementioned instance variables gives us:</p>
+<div class="figure">
+<img src="img3.gif" alt="Instance vars and Constructor" /><p class="caption">Instance vars and Constructor</p>
+</div>
+<p>The <strong>tryFlip</strong> method takes the <strong>i,j</strong> location of the switch within the grid and tries to flip it.  Note the use of the <strong>try catch</strong> block.  This provides the easiest way to prevent illegal indexes causing the app to stop with an error.  Note also the use of the logical OR operator || to enforce the alternative game rules.</p>
+<div class="figure">
+<img src="img5.gif" alt="trFlip method" /><p class="caption">trFlip method</p>
+</div>
+<p>Testing the model will be important, and it’s a good idea to do this from plain Java rather than to always have to test within an Android app.  For this purpose we have the following toString() method.  This will allow us to check the state of the model after flipping a switch:</p>
+<div class="figure">
+<img src="img7.gif" alt="toString method" /><p class="caption">toString method</p>
+</div>
+<h2 id="exercise-one">Exercise One</h2>
+<p>Now implement the three remaining methods:</p>
+<ul>
+<li>boolean isSwitchOn(int i, int j)</li>
+<li>void flipLines(int i, int j)</li>
+<li>boolean isSolved()</li>
+</ul>
+<p>From the names and puzzle description you may be able to work out what these methods should do: if not please discuss this with a lab assistant.</p>
+<p>Write a new class to test this and check the operation of the model.  You can set the grid to be in various states.  This is a simple example, which is sufficient for this lab:</p>
+<div class="figure">
+<img src="img9.gif" alt="ModelTest" /><p class="caption">ModelTest</p>
+</div>
+<p>Run this and check that the console output is what you expect: (note that only the first two grids are shown - the above code prints out four).</p>
+<div class="figure">
+<img src="imgB.gif" alt="ModelTest Output" /><p class="caption">ModelTest Output</p>
+</div>
+<p>Also check that when notStrict is false, flipping a switch in the off state has no effect.</p>
+<h2 id="lightsview">LightsView</h2>
+<p>Having confirmed that the model works, it is now time to build the view class.  I called this LightsView.</p>
+<p>The first part of the implementation declares what it extends and implements, and also the required static and instance variables:</p>
+<div class="figure">
+<img src="img2.gif" alt="LightsView Declarations" /><p class="caption">LightsView Declarations</p>
+</div>
+<p>The size variable is used to store the size of each grid cell.  This is calculated dynamically every time the grid is drawn, in order to be robust to any changes in size of the LightsView component.</p>
+<p>The other supporting variables and <strong>setGeometry</strong> method to calculate them are here:</p>
+<div class="figure">
+<img src="imgF.gif" alt="setGeometry" /><p class="caption">setGeometry</p>
+</div>
+<p>We’ll draw the view in several steps: create a <strong>Paint</strong> object and vary only the colour for part we need to draw.  Then we’ll draw the view background and the grid background (the grid is a square on the possibly rectangular overall LightsView.</p>
+<p>Then we simply iterate over the set of grid cells, setting the corresponding light color depending on the state of the grid there.  Note: I have accessed the grid array directly from the LightsView class: this is questionable practice (why?), and you may prefer to define a <strong>getSwitchState</strong> method in the model class instead.</p>
+<div class="figure">
+<img src="img13.gif" alt="onDraw method" /><p class="caption">onDraw method</p>
+</div>
+<div class="figure">
+<img src="img15.gif" alt="drawTile" /><p class="caption">drawTile</p>
+</div>
+<p>The event handling methods are as follows:</p>
+<p>When you have the system up and running experiment with returning true from the <strong>onTouch</strong> method, and confirm that this breaks the <strong>onClick</strong> event.</p>
+<div class="figure">
+<img src="img17.gif" alt="Event Handling" /><p class="caption">Event Handling</p>
+</div>
+<p>There are some remaining things that need to be done.  When creating the View class the IDE may have prompted you to create constrcutors. These are the constructors I have.  Note that one that takes a LightsModel as an argument. </p>
+<div class="figure">
+<img src="img4.gif" alt="LightsView Constructors" /><p class="caption">LightsView Constructors</p>
+</div>
+<p>Since much of the setup (at least for now) is common to all constructors I have defined a <strong>setup</strong> method to take care of all this.  This also calls a <strong>checkModel</strong> method.  The rationale behind this is to ensure that something still works even if the model was not setup as expected.  This is a bit sloppy and is just a quick fix: you should also investigate under what circumatances each constructor gets called, and how to ensure in all cases that the model is set up correctly (e.g. has the correct value of <strong>n</strong>).</p>
+<div class="figure">
+<img src="img14.gif" alt="setup and checkModel methods" /><p class="caption">setup and checkModel methods</p>
+</div>
+<p>Finally, we need to ensure that the main activity class invokes the view.  The view could be setup in XML but for now I’ve done it directly in Java: </p>
+<div class="figure">
+<img src="img16.gif" alt="MyActivity class" /><p class="caption">MyActivity class</p>
+</div>
+<h2 id="exercise-two">Exercise Two</h2>
+<p>You should now have a working LightsOn puzzle, but there is no indication of when the puzzle is solved, and no facility to reset the puzzle.</p>
+<p>By reading up on the <a href="http://developer.android.com/guide/topics/ui/layout/linear.html">LinearLayout</a> class and experimenting with XML layouts, create a new version of the puzzle app with a status message (e.g. using a TextView) and a reset button (I suggest using a Button).</p>
+<p>Then try to hook up these view components to the main activity and the LightsView in order for everything to work in a sensible fashion: you can decide on the details of exactly how it works. </p>
+<p>Don’t be too concerned if you don’t get all this working within this lab: we’ll study more about how to hook up components to work with each other next week.  Here are a couple of tips to get ytou started.</p>
+<p>You can edit the XML to make button clicks trigger a method (by default a method in the main activity.  For example, add the following Button declaration within a LinearLayout:</p>
+<div class="figure">
+<img src="imgD1.gif" alt="Button onClick" /><p class="caption">Button onClick</p>
+</div>
+<p> </p>
+<p>Then you need to rewrite the main activity class to change the <strong>onCreate()</strong> method and to add the <strong>resetModel()</strong> method.  The onCreate method has now been changed to use the XML layout.</p>
+<p>Note the use of <strong>findViewById</strong> in the resetModel method, and the fact that we call <strong>postInvalidate</strong> on the LightsView in order to refresh the view.</p>
+<div class="figure">
+<img src="imgB1.gif" alt="onCreate and resetModel" /><p class="caption">onCreate and resetModel</p>
+</div>
+<p><strong>Note:</strong> in order to show the current score you should add a <strong>getScore()</strong> method to the <strong>LightsModel</strong> class.</p>
+<p><strong>Hint:</strong> before implementing <strong>getScore()</strong> take a look at <strong>isSolved()</strong>.  After implementing getScore you will probably want to refactor the isSolved method!</p>
+<p>Here is an example running.</p>
+<div class="figure">
+<img src="imgF.jpg" alt="LightsOn Working" /><p class="caption">LightsOn Working</p>
+</div>
+<p> </p>
+<h2 id="note-1"> Note 1</h2>
+<p>Thinking further ahead, one could also imagine a fiendish version of the puzzle with tri-state switches: in fact, a generalised version of the puzzle with this extension already exists (though the switches now are on a graph rather than a grid: see <a href="http://www.cs.mun.ca/~davidc/chromanode/">Chromanode</a>.</p>
+<p> </p>
+<p> </p>
+</div>
+</div>
+</body>
+</html>

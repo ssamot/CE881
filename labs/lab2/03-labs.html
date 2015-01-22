@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="../../labs.css" type="text/css" />
+</head>
+<body>
+
+ <div id="container">
+<div class="leftNav">
+<ul>
+<li><a href="#lab-3-lights-on-continued">Lab 3: Lights On Continued…</a><ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#saving-state">Saving State</a></li>
+<li><a href="#adding-instructions">Adding Instructions</a></li>
+<li><a href="#splash-screen">Splash Screen</a></li>
+<li><a href="#dialogs">Dialogs</a></li>
+<li><a href="#saving-data">Saving Data</a></li>
+<li><a href="#exercise">Exercise</a></li>
+<li><a href="#further-reading">Further reading</a></li>
+</ul></li>
+</ul>
+</div>
+<div class="main">
+<h1 id="lab-3-lights-on-continued">Lab 3: Lights On Continued…</h1>
+<h2 id="introduction">Introduction</h2>
+<p>In the previous lab we implemented a simple puzzle game.  While this “sort of worked” it fell short of a typical app in a number of ways:</p>
+<ul>
+<li>No retention of state: puzzle state would be lost after a device orientation change</li>
+<li>No retention of state after the app has been destroyed and recreated</li>
+<li>The app consisted of a single screen: most apps involve more than this</li>
+</ul>
+<p>You’ll now work through extending the app in the following ways:</p>
+<ul>
+<li>Temporary saving of state in a Bundle</li>
+<li>Addition of an explanation screen: we’ll do this using a WebView to display an HTML page</li>
+<li>Adding an Alert Dialog to query whether a user really wants to leave the app</li>
+<li>Saving the state permanently</li>
+</ul>
+<p>There is also an exercise to add more features to the app; a solution will be circulated later in the course.</p>
+<p>In the further reading section there is a link to a moderately complex ActivityLifecycle demonstration app.  Prior to studying the app it is a good idea to simply override the lifecycle methods in your main activity in order to gain a greater understanding of when the lifecycle events occur.  You can do this simply by writing messages to the LogCat.  The methods to override are:</p>
+<ul>
+<li>onCreate() </li>
+<li>onStart()</li>
+<li>onResume()</li>
+<li>onPause()</li>
+<li>onStop()</li>
+<li>onDestroy()</li>
+</ul>
+<p>Don’t forget to always call the superclass method first!</p>
+<h2 id="saving-state">Saving State</h2>
+<p>Currently the underlying state of the app is stored in the LightsModel object.  Therefore it is sufficient to save a copy of this between device orientation transitions.  There are two methods that can be overriden in the Activity class to handle this easily: they are <strong>onSaveInstanceState</strong> and <strong>onRestoreInstanceState</strong>.  An object that holds the current state may contain many fields, so rather than extracting and saving each one separately it is easier to serialize the entire model object, and put this into the Bundle.  For more details of what can be done with Bundle objects refer to the <a href="http://developer.android.com/reference/android/os/Bundle.html">Bundle documentation</a>. </p>
+<p>For now we just need to be able to store and retrieve objects.  The way we use a bundle is as a set of maps for each specific data type we wish to store.  In order to save and load the model we define a static String referred to as <strong>modelKey</strong>.  The code to save and load the model in our main Activity class is then as shown below.  Note that we’re using the <strong>putSerializable()</strong> method of Bundle: for this to work the object (in this case LightsModel) must be declared serializaable, as in:</p>
+<pre><code>public class LightsModel implements Serializable {
+   // rest of class definition omitted
+   // note that any other Object fields would
+   // also need to be declared serializable
+   // but LightsModel does not have any
+}</code></pre>
+<div class="figure">
+<img src="img13.gif" alt="Saving and Restoring state" /><p class="caption">Saving and Restoring state</p>
+</div>
+<p>Note that I’ve used a call to getModel() to get the current model.  This is defined as follows:</p>
+<div class="figure">
+<img src="img15.gif" alt="getModel() method" /><p class="caption">getModel() method</p>
+</div>
+<p>Where <strong>nDefault</strong> is a static int declaring the default size of n x n grid use for the model.  In this way a valid model is always stored.</p>
+<p>Check that this works by changing the device orientation and confirming that the state is retained.  This can be done using &lt;CTRL&gt;&lt;F11&gt;.</p>
+<p>A working solution to the LightsOn puzzle this far can be found <a href="LightsOn.zip">here</a>.  Note that compared to the code presented in the previous lab, the coupling between the different classes has been reduced.  In particular, LightsView no longer keeps a reference to a LightsModel object.  It now only keeps a reference to the parent activity, and then calls the getModel method of that whenever it needs access to the LightsModel object.  <strong>Question</strong>: why is this better (if indeed it is!)?</p>
+<p> </p>
+<h2 id="adding-instructions">Adding Instructions</h2>
+<p>Although many apps are self explanatory you may want to add some instructions or other form of documentation or company information, and a good way to do this is to provide an HTML file.  This can include images as necessary. </p>
+<p>We’ll do this initially by adding a new <strong>Activity.</strong></p>
+<p>The new activity is called <strong>AboutActivity</strong>: it’s main purpose is to display a <strong>WebView</strong>.  A WebView acts as an embedded web browser. </p>
+<p>Beyond this, we enable the “up” arrow in the action bar in its onCreate method, and then also write a method to handle that.  Hence the code is as follows:</p>
+<div class="figure">
+<img src="img17.jpg" alt="AboutActivity" /><p class="caption">AboutActivity</p>
+</div>
+<p>In order for this to work you’ll need an HTML file called About.html.  This should be placed in a directory called <strong>assets/html</strong>.  I suggest you include an image to verify that image inclusion works properly.  A sample HTML file plus images can be found <a href="html.zip">here</a>.  To use this extract it to your project’s assets directory (so the file would appear as <strong>assets/html/About.html</strong>.)</p>
+<p>The next step is to link in the AboutActivity to the main Activity in some way.  Here we’ll add it to the options menu.  This is done by adding the following code to the main Activity class:</p>
+<div class="figure">
+<img src="img1A.gif" alt="Adding a menu item" /><p class="caption">Adding a menu item</p>
+</div>
+<p>Finally, in order for this to work we need to add the new Activity to the AndroidManifest.xml file as follows:</p>
+<div class="figure">
+<img src="img1C.gif" alt="Updated Manifest File" /><p class="caption">Updated Manifest File</p>
+</div>
+<p>Then, with a suitable HTML file plus image(s), you can see an about activity such as the following:</p>
+<div class="figure">
+<img src="AboutScreen.png" alt="About Screen" /><p class="caption">About Screen</p>
+</div>
+<p>Note the “&lt;” arrow on the Action Bar - this is the “Up Arrow” we set up with the line getActionBar().setDisplayHomeAsUpEnabled(true);</p>
+<h2 id="splash-screen">Splash Screen</h2>
+<p>Many games have a significant loading time, and use a “splash screen” to advertise the publisher and indicate to the user (and the Android system) that the app is doing something.</p>
+<p>A technique for doing this using an AsyncTask was covered in Lecture 2 lecture notes, and is included in the <a href="LayoutTest.zip" class="uri">LayoutTest.zip</a> project.  Download and run the LayoutTest project and confirm by inspecting the LogCat that the naive threading approach to creating a transient splash screen does indeed cause an exception to be thrown.</p>
+<p>Using the AsyncTask approach add a spash screen that should show for a few seconds when the app is first launched.  This could be an HTML page or a TextView, or really any type of view of your choice.</p>
+<p>Note: the splash screen should not be shown after a device orientation transition.  This will require some conditional logic to achieve this.  What condition can you test to check whether the spash screen should be shown?</p>
+<h2 id="dialogs">Dialogs</h2>
+<p>Dialogs are modal views that require user interaction before moving on: the interaction may cause a return to the previous acitvity, or quitting it, or moving to a new activity.</p>
+<p>Dialogs come in many forms (refer to the documentation or see the Dialog pallete on the GUI designer of your IDE).  Below is an example showing a typical text-based one that gets a user to confirm or cancel an action.  It is common in Android development examples to see this amount of code being presented each time a Dialog is required, though it might be possible to cut down on this with some utility code that popped up a Dialog of this type given just a few parameters.  Question: how would you do this?</p>
+<p>In the example below, the Dialog itself is created in relation to a user hitting the Back Button with the intention of leaving the app.  This illustrates how to block a user doing that - or potentially block it.  In this case the user is required to confirm that they wish to leave the app.</p>
+<div class="figure">
+<img src="img1E.jpg" alt="Intercepting the Back Button" /><p class="caption">Intercepting the Back Button</p>
+</div>
+<h2 id="saving-data">Saving Data</h2>
+<p>A typical application often needs to save data to be restored at a later date. Two ways to do this inAndroid are to use Key-Value Sets and to use files.  Other alternatives include saving data in a database, e.g. an <strong>sqlite</strong> database when using Android.</p>
+<p>In this part of the lab the aim is to experiment with key-value sets and with file storage.  Begin by reading the descriptions here:</p>
+<ul>
+<li><a href="http://developer.android.com/training/basics/data-storage/shared-preferences.html" class="uri">http://developer.android.com/training/basics/data-storage/shared-preferences.html</a></li>
+<li><a href="http://developer.android.com/training/basics/data-storage/files.html" class="uri">http://developer.android.com/training/basics/data-storage/files.html</a></li>
+</ul>
+<p>Now modify your app by overriding the appropriate lifecycle methods in order to make the state of the puzzle be saved and restored when the app is destroyed and then restarted.</p>
+<p>Which activity lifecycle methods will you override to achieve this?</p>
+<p>You should already have the model as being serializable, so saving its state in a file is straightforward: simply write it to an ObjectOutputStream (and read it back in from an ObjectInputStream).</p>
+<h2 id="exercise">Exercise</h2>
+<p>If you get time, spend some time adding more features to the game.  This part is open-ended.  For example, you might:</p>
+<ul>
+<li>add a special randomise button that creates puzzles to solve that are a guaranteed number of steps away from the solution</li>
+<li>create an options dialog that allows the user to set the grid size</li>
+</ul>
+<p>We’ll go through a solution to this later in the course.</p>
+<h2 id="further-reading">Further reading</h2>
+<p>Read the <a href="http://developer.android.com/training/basics/activity-lifecycle/starting.html">Activity Lifecycle</a> documentation, and download and run the ActivityLifecycle.zip demo.</p>
+<p> </p>
+<p> </p>
+</div>
+</div>
+</body>
+</html>

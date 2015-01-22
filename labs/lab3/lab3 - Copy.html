@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD><TITLE>CE881: Lab 3</TITLE>
+    <META http-equiv=Content-Type content="text/html; charset=windows-1252">
+    <META http-equiv=Content-Language content=en-gb>
+    <link rel="stylesheet" type="text/css" href="../css/toc.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/basic.css"/>
+
+    <SCRIPT language=JavaScript src="../js/newtoc.js">
+    </SCRIPT>
+
+</HEAD>
+<BODY onload=toc()>
+<TABLE>
+<TBODY>
+<TR>
+<TD class=sidebar vAlign=top>
+    <DIV id=toc></DIV>
+</TD>
+<TD>
+<H2>CE881: Lab 3</H2>
+<DIV class=main>
+<H3><A name=Introduction>Introduction</A></H3>
+	<p>This lab involves two distinct concepts: data storage, and fragments.&nbsp; 
+	There is also an extended exercise on using file storage for multiple files.</p>
+	<H3><a name="Saving Data">Saving Data</a></H3>
+	<p>A typical application often needs to save data to be restored at a later 
+	date. Two ways to do this inAndroid are to use Key-Value Sets and to use 
+	files.&nbsp; Other alternatives include saving data in a database, e.g. an
+	<strong>sqlite</strong> database when using Android.</p>
+	<p>In this part of the lab the aim is to experiment with key-value sets and 
+	with file storage.&nbsp; Begin by reading the descriptions here:</p>
+	<ul>
+		<li>
+		<a href="http://developer.android.com/training/basics/data-storage/shared-preferences.html">
+		http://developer.android.com/training/basics/data-storage/shared-preferences.html</a></li>
+		<li>
+		<a href="http://developer.android.com/training/basics/data-storage/files.html">
+		http://developer.android.com/training/basics/data-storage/files.html</a></li>
+	</ul>
+
+<p>Now modify your Lissajous app from last week (or the LissajousTwo app that 
+was distributed) to save the state of the curve to a file on the <em>internal</em> 
+storage for the app, so that next time the app is launched it will show the 
+previous state of the curve.&nbsp; When doing this think carefully about whether 
+it will be easier to use a Key-Value Set or to use a file.</p>
+	<p><strong>Hint:</strong> when doing this, think carefully about what data 
+	acutally needs to be stored!</p>
+	<h3><a name="Fragments">Fragments</a></h3>
+	<p>Read the Fragments lecture notes, then work through the FragmentBasics 
+	tutorial here:</p>
+	<ul>
+		<li>
+		<a href="http://developer.android.com/training/basics/fragments/index.html">
+		http://developer.android.com/training/basics/fragments/index.html</a></li>
+	</ul>
+	<p>Run the app both on the Nexus One and the Nexus 7 emulators (or use real 
+	devices with small and large screens).&nbsp; Note how the appropriate layout 
+	is automatically shown, as in the example below:</p>
+	<p><img alt="Auto Resized Layouts" src="img23.jpg"></p>
+	<h3><a name="Exercise">Exercise</a></h3>
+	<p>Extend the file saving feature at the start of this lab to allow saving 
+	different curves to different named files.&nbsp; It should also be possible 
+	to delete curves which are no longer needed, and to reload saved curves.</p>
+	<h3><a name="Quiz">Quiz</a></h3>
+	<ol>
+		<li>In the FragmentBasics example, what would be the effect of 
+		mispelling the <strong>&quot;layout-large&quot;</strong> directory name?</li>
+		<li>Explain when to it is most appropriate to use internal versus 
+		external file storage.</li>
+		<li>Why should all communication between sibling Fragments go via their 
+		parent / host?</li>
+		<li>Why is it necessary to add or remove Fragments within a 
+		FragmentTransaction?</li>
+		<li>Under what conditions is it necessary for an Activity that hosts a 
+		Fragment to extend FragmentActivity?</li>
+		<li>When writing to external storage what must be added to the manifest 
+		file?</li>
+		<li>When opening a file for writing explain how to have the new data 
+		either overwrite the existing data, or append to the existing data.</li>
+	</ol>
+	<p>&nbsp;</p>
+
+<P class=end>end of page
+
+<P class=end>&nbsp;</P></DIV>
+</TD>
+</TR>
+</TBODY>
+</TABLE>
+</BODY>
+</HTML>

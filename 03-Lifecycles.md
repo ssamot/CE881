@@ -1,5 +1,5 @@
 ---
-title:  'Components, Activity Lifecycles and Intents'
+title:  'Components, Activity Lifecycle and Intents'
 subtitle: 'CE881: Mobile and Social Application Programming'
 author: Simon Lucas \& Spyros Samothrakis
 tags: [nothing, nothingness]

@@ -16,7 +16,7 @@ Lectures take place on **Tuesday 09:00-11:00 at Room TC1.12** in the Teaching ce
 
 * [Introduction (Apps and the Android platform)](./slides/01-Introduction-slides.pdf), [Handouts](./slides/01-Introduction-handouts.pdf)
 * [Layouts (and dynamic view switching)](./slides/02-Layout-slides.pdf), [Handouts](./slides/02-Layout-handouts.pdf)
-* [Components, Activity Lifecycles and Intents](./slides/03-Lifecycles-slides.pdf), [Handouts](./slides/03-Lifecycles-handouts.pdf)
+* [Components, Activity Lifecycle and Intents](./slides/03-Lifecycles-slides.pdf), [Handouts](./slides/03-Lifecycles-handouts.pdf)
 
 ## Labs
 Labs are every **Thursday 13:00-15:00, CES Lab 3**. Be sure to work through the labs carefully, and to check that you understand the material and can answer the quiz questions (where applicable) at the end.

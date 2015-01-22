@@ -23,7 +23,7 @@ Labs are every **Thursday 13:00-15:00, CES Lab 3**. Be sure to work through the 
 
 * [Lab 1: Hello World and beyond](./labs/lab1/01-labs.html)
 * [Lab 2: Lights On!](./labs/lab2/02-labs.html)
-* [Lab 3: Lab 3: Lights On Continued...!](./labs/lab2/03-labs.html)
+* [Lab 3: Lab 3: Lights On Continued...!](./labs/lab3/03-labs.html)
 
 
 ## Sample Apps

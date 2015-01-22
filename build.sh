@@ -29,4 +29,4 @@ pdfnup ./slides/$lec_name-slides.pdf -q --nup 2x2 --noautoscale false --delta "0
 
 lab_name=3
 echo "Building html for lab "$lab_name
-pandoc -s -S --toc --template=custom.html -c "../../labs.css" 0$lab_name-labs.md -o ./labs/lab2/0$lab_name-labs.html
+pandoc -s -S --toc --template=custom.html -c "../../labs.css" 0$lab_name-labs.md -o ./labs/lab$lab_name/0$lab_name-labs.html

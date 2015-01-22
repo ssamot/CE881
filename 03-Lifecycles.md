@@ -110,6 +110,9 @@ theme: Warsaw
 
 * Let's see some
 
+
+# Activities
+
 ## Activity Lifecycle
 
 

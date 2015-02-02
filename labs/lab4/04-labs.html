@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="../../labs.css" type="text/css" />
+</head>
+<body>
+
+ <div id="container">
+<div class="leftNav">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#menus">Menus</a></li>
+<li><a href="#custom-dialogs">Custom Dialogs</a></li>
+<li><a href="#randomising-the-puzzle">Randomising the Puzzle</a></li>
+<li><a href="#game-state">Game State</a></li>
+<li><a href="#solutions">Solutions</a></li>
+</ul>
+</div>
+<div class="main">
+<h2 id="introduction">Introduction</h2>
+<p>This is the final lab covering the LightsOn puzzle.  The aim is to study some further Android topics, and then build these into an improved version of LightsOn.</p>
+<p>The main topics to be covered are:</p>
+<ul>
+<li>Menus</li>
+<li>Custom Dialogs</li>
+</ul>
+<p>We’ll also pay some attention to how to randomise the puzzle with some care.</p>
+<p>Fragments are briefly covered in the the lectures and online <a href="http://developer.android.com/guide/components/fragments.html">here</a>.</p>
+<h2 id="menus">Menus</h2>
+<p>In the previous lab we added an “About” menu to the app.  Now by referring to the Menus, Dialogs and Fragments lecture notes or the Android developer resources add at another menu item called Options, and create specific icons for your menu items, and also experiment with adding them to the ActionBar.</p>
+<p>The <a href="MenusAndDialogs.zip" class="uri">MenusAndDialogs.zip</a> project contains the code discussed in the lecture, including the experiemtal dynamic icon generation code.</p>
+<h2 id="custom-dialogs">Custom Dialogs</h2>
+<p><strong>Exercise:</strong></p>
+<p>By  referring to the <a href="http://developer.android.com/guide/topics/ui/dialogs.html">Dialogs</a> documentation (or the lecture notes) create an OptionsDialog that enables the user to select the size of the n x n grid, and also the number of steps that a randomised puzzle will be away from the goal.</p>
+<p>The code provided below offers a partial solution to this.  From the Menus part you should already have an “options” item added to the options menu.  In the <strong>onOptionsItemSelected</strong> event handling method add the following code to handle the selection of the “options” item (define a static variable for this called <strong>optionsItem</strong>).</p>
+<div class="figure">
+<img src="OptionsMenu.PNG" alt="OptionsMenu" /><p class="caption">OptionsMenu</p>
+</div>
+<p>We then need to create the CustomDialogFragment class, and example of which is shown below.  This will follow on from the examples provided in the the <a href="http://developer.android.com/guide/topics/ui/dialogs.html">Dialogs</a> documentation.  Note the following:</p>
+<ul>
+<li>This is a simple example that uses a single number picker</li>
+<li>It relies on some static variables having been defined in the parent Activity class such as <strong>nGridMax</strong> (CustomDialogFragment is defined as an inner class within the main Activity class (e.g. LightsActivity)</li>
+<li>Being an inner class gives it convenient access to the instance variables and methods of the Activity</li>
+<li>An instance variable of the Activity called <strong>nGrid</strong> has been defined to select the grid size</li>
+<li><strong>nGrid</strong> is used to provide a default value to the number picker</li>
+<li>To keep the example self contained and simple I’ve created the custom view (in fact, the NumberPicker) in the Java code</li>
+<li>The call to builder.<strong>setView</strong> is the one that sets the custom view</li>
+<li>In both negative and positive button options the value of nGrid is retained, but only in the positive option called “New Game” is the new game initiated immediately</li>
+</ul>
+<div class="figure">
+<img src="CustomDialogFragment.PNG" alt="CustomDialogFragment" /><p class="caption">CustomDialogFragment</p>
+</div>
+<p>Interestingly, the default behaviour of this is rather annoying:: it pops up a keyboard as illustrated below.  This could be useful sometimes, but for selecting numbers from such a small range is just ridiculous.</p>
+<div class="figure">
+<img src="WithKeyboard.png" alt="With Keyboard" /><p class="caption">With Keyboard</p>
+</div>
+<p><strong>Fixing this:</strong> by doing a web search work out how to disable the keyboard, and arrive at the more satisfactory behaviour shown below:</p>
+<div class="figure">
+<img src="WithoutKeyboard.png" alt="Without Keyboard" /><p class="caption">Without Keyboard</p>
+</div>
+<p>To finish off this part you can either add more to a single custom dialog, or alternatively add another item to the options menu to pop a different custom dialog to enable selection of the number of steps to goal.</p>
+<h2 id="randomising-the-puzzle">Randomising the Puzzle</h2>
+<p>In this section we return to some model logic that is independent of Android.</p>
+<p>Suppose you start the puzzle in the solved state with all the lights on.  How will you guarantee to put the puzzle in a state which is <em>n</em> steps away from the solution? </p>
+<p>Actually, this is a potentially difficult problem as <em>n</em> gets large.  However, for small n there are probably some simple tricks you can use to avoid obvious errors.  An obviously erroneous algorithm would be:</p>
+<pre><code>repeat n times
+  pick a grid square at random and flip the lights for that square</code></pre>
+<p>Question: why is that erroneous?  (think how it could go horribly wrong even for <em>n</em>=2)</p>
+<p>Note: you should also add a Randomise button to your app to invoke the randomise function.</p>
+<h2 id="game-state">Game State</h2>
+<p>Finally, you may want to add some game state management.  This is distinct from the lifecycle state of the app, but can be useful in managing the app while it is in the resumed state.  For example, if the user wishes to change the grid size, you might disallow this during the middle of a game (or at least warn that this will destroy the current game).</p>
+<h2 id="solutions">Solutions</h2>
+<p>Parts of this lab have been a bit open-ended - so we’ll be very interested to see the solutions you develop!  A solution that demostrates the key concepts will be circulated some time after the lab.</p>
+<p> </p>
+</div>
+</div>
+</body>
+</html>

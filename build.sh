@@ -31,11 +31,30 @@ pandoc -s -S --toc --template=custom.html -c "./labs.css" index.md -o index.html
 # echo "Building html for lab "$lab_name
 # pandoc -s -S --toc --template=custom.html -c "../../labs.css" 0$lab_name-labs.md -o ./labs/lab$lab_name/0$lab_name-labs.html
 
-lec_name="04-Fragmenu"
-echo "Building Slides for "$lec_name
-pandoc --slide-level 2 --template=custom.beamer --toc -t beamer $lec_name.md -o ./slides/$lec_name-slides.pdf
-pdfnup ./slides/$lec_name-slides.pdf -q --nup 2x2 --noautoscale false --delta "0.2cm 0.3cm" --frame true --scale 0.95 -o ./slides/$lec_name-handouts.pdf
+# lec_name="04-Fragmenu"
+# echo "Building Slides for "$lec_name
+# pandoc --slide-level 2 --template=custom.beamer --toc -t beamer $lec_name.md -o ./slides/$lec_name-slides.pdf
+# pdfnup ./slides/$lec_name-slides.pdf -q --nup 2x2 --noautoscale false --delta "0.2cm 0.3cm" --frame true --scale 0.95 -o ./slides/$lec_name-handouts.pdf
 
-lab_name=4
+# lab_name=4
+# echo "Building html for lab "$lab_name
+# pandoc -s -S --toc --template=custom.html -c "../../labs.css" 0$lab_name-labs.md -o ./labs/lab$lab_name/0$lab_name-labs.html
+
+
+# lec_name="05-Sensors"
+# echo "Building Slides for "$lec_name
+# pandoc --slide-level 2 --template=custom.beamer --toc -t beamer $lec_name.md -o ./slides/$lec_name-slides.pdf
+# pdfnup ./slides/$lec_name-slides.pdf -q --nup 2x2 --noautoscale false --delta "0.2cm 0.3cm" --frame true --scale 0.95 -o ./slides/$lec_name-handouts.pdf
+
+# lab_name=5
+# echo "Building html for lab "$lab_name
+# pandoc -s -S --toc --template=custom.html -c "../../labs.css" 0$lab_name-labs.md -o ./labs/lab$lab_name/0$lab_name-labs.html
+
+# lec_name="06-Threads"
+# echo "Building Slides for "$lec_name
+# pandoc --slide-level 2 --template=custom.beamer --toc -t beamer $lec_name.md -o ./slides/$lec_name-slides.pdf
+# pdfnup ./slides/$lec_name-slides.pdf -q --nup 2x2 --noautoscale false --delta "0.2cm 0.3cm" --frame true --scale 0.95 -o ./slides/$lec_name-handouts.pdf
+
+lab_name=6
 echo "Building html for lab "$lab_name
 pandoc -s -S --toc --template=custom.html -c "../../labs.css" 0$lab_name-labs.md -o ./labs/lab$lab_name/0$lab_name-labs.html

@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="../../labs.css" type="text/css" />
+</head>
+<body>
+
+ <div id="container">
+<div class="leftNav">
+<ul>
+<li><a href="#ce881-lab-5-bubble-game">CE881 Lab 5: Bubble Game</a><ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#bubble-game">Bubble Game</a></li>
+<li><a href="#class-model">Class Model</a></li>
+<li><a href="#bubble-activity">Bubble Activity</a></li>
+<li><a href="#sprite-view">Sprite View</a></li>
+<li><a href="#game-model">Game Model</a></li>
+<li><a href="#sprite">Sprite</a></li>
+<li><a href="#vector2d">Vector2d</a></li>
+<li><a href="#zip-file">Zip File</a></li>
+<li><a href="#exercise">Exercise</a></li>
+</ul></li>
+</ul>
+</div>
+<div class="main">
+<h1 id="ce881-lab-5-bubble-game">CE881 Lab 5: Bubble Game</h1>
+<h2 id="introduction">Introduction</h2>
+<p>This lab introduces some of the main ideas necessary for writing real-time apps such as 2D video games  (3D Android games normally used OpenGL ES, and are beyond the scope of this course.) </p>
+<p>Real-time apps usually involve two threads: the User-Interface (UI) thread which performs the event handling (including the on-touch events to handle user interactions, for example), and a separate app-specific thread to handle the app updating: we call the the <strong>app thread</strong>.  This differs from the LightsOn puzzle we studied previously which was entirely UI event driven (apart from the Splash Screen which used an AsyncTask). </p>
+<p>As before, it is a good idea to separate the model from the view, so typically the app thread will run a loop which repeatecly <strong>updates</strong> the model, <strong>redraws</strong> the view, then <strong>sleeps</strong> for a specified time interval until it is time for the next update / redraw cycle.</p>
+<p><strong>But wait!</strong>  Have you spotted a potential problem already?  Remember that only the UI thread can directly update a view, so how can we get around this?  There are two main solutions:</p>
+<ul>
+<li>Instead of redrawing the view directly, make a call to the view’s <strong>postInvalidate</strong> method instead.  This will then trigger the UI thread to redraw the view <strong>as soon as it chooses to</strong>.</li>
+<li>Have the app view sub-class <strong>SurfaceView</strong>.  SurfaceView is a special type of view that, providing the app thread holds a lock on, is allowed to redraw it directly.</li>
+</ul>
+<p>The first method is the simplest and is the one we choose for this lab.  The only disadvantage is that the movement can be slightly jerky.  Why do you think this is?</p>
+<p>The second method would be the method of choice for any app where smooth movement mattered.  It is a bit more complex, and we’ll cover it later in the course.</p>
+<h2 id="bubble-game">Bubble Game</h2>
+<p>We’ll study these ideas in the context of a simple game: Bubble Game.  The aim of Bubble Game is to pop the green bubbles by tapping them while avoiding the blue bubbles.  To make it slightly interesting, the bubles move and are of several different sizes.  A screenshot is shown below:</p>
+<div class="figure">
+<img src="BubbleGame.png" alt="Bubble Game Screenshot" /><p class="caption">Bubble Game Screenshot</p>
+</div>
+<p>The rules are as follows:</p>
+<ul>
+<li>There are two types of disc, blue and green, equal in number.</li>
+<li>Clicking (touching) a green disc scores +10 points.</li>
+<li>Clicking a blue disc scores -50 points.</li>
+<li>Each time a disc is clicked a new one of the same colour is randomly spawned to replace it.</li>
+<li>The game ends after a set period e.g. 1 minute.</li>
+<li>The game should show the score on the screen at all times, and the time remaining (hint: draw this directly on the view for simplicity; the example above does not have this feature implemented).</li>
+</ul>
+<h2 id="class-model">Class Model</h2>
+<p>The model shows the following classes:</p>
+<div class="figure">
+<img src="ClassRelationships.PNG" alt="Class Relationship" /><p class="caption">Class Relationship</p>
+</div>
+<p>The diagram shows the “HAS-A” relationship betweem the classes i.e. which classes have an instance variable referring to which other classes.  We’ll give an outline of each of these now.  Note that the <strong>Sprite</strong> class is used to model each individual bubble: this could equally well have been called <strong>Bubble</strong>.  The diagram is automatically drawn and has some limitations: for example, the GameModel has a list of N sprites, not just 1 as suggested by the model. Nonetheless it is useful for conveying the main ideas.</p>
+<h2 id="bubble-activity">Bubble Activity</h2>
+<p>The BubbleActivity class is the entry point for the app and acts as the controller: its fields and methods are shown below (in these diagrams, produced automatically from the Java code using the Intellij Diagram Tool (to open this right-click a class in the project view and click the “Diagram” item).</p>
+<p>As also shown on the classes diagram above, BubbleActivity has references to the view and the model.  As is normal, it overrides the onCreate method.  It also overrides onResume and onPause: it is in these methods that the GameThread is created and killed respectively.</p>
+<div class="figure">
+<img src="BubbleActivityClass.PNG" alt="BubbleActivity Class" /><p class="caption">BubbleActivity Class</p>
+</div>
+<p>Question: What does the diamond indicate on the field or method symbols? (for example, the tag field in the diagram above has a diamond overlaid on it).</p>
+<p>The size of the view is not available until the view has been created and displayed.  The model needs to know this since the bubbles move in a toroidal wrap-around world.  The solution I’ve adopted here is to set this up when the GameThread is running.  GameThread is defined as an inner class of BubbleActivity: this gives it convenient access to all the methods and fields of BubbleActivity.  GameThread <strong>extends Thread</strong> and has a simple class diagram.  It does all it’s work in a run method, which loops while <strong>running is true</strong>. </p>
+<p>Question: why does GameThread use a boolean variable to decide when to stop? (a Thread stops when its run method exits).  Why do we not simply stop the GameThread directly with a call to <strong>stop()</strong> ?</p>
+<div class="figure">
+<img src="GameThreadClass.PNG" alt="GameThread Class" /><p class="caption">GameThread Class</p>
+</div>
+<h2 id="sprite-view">Sprite View</h2>
+<p>The SpriteView class as provided is very simple.  It extends View and has one simple method: it overrides <strong>onDraw</strong>.  This method works by calling the getModel method of the controller (the parent Activity).  It then iterates over all the Sprites (Bubbles) in the model, and calls the draw method of each one.</p>
+<div class="figure">
+<img src="SpriteViewClass.PNG" alt="SpriteView class" /><p class="caption">SpriteView class</p>
+</div>
+<p>Note: currently the SpriteView class is missing the event handling method(s).  You’ll add this / these as part of the lab exercise.</p>
+<h2 id="game-model">Game Model</h2>
+<p>The GameModel class handles the top-level game logic, while delegating lower level aspects to the Sprite class.  It has an ArrayList of sprites to store all the bubbles and other fields to keep track of the score and the time remaining.  It has a click method which should be called when a click event is received by the View.</p>
+<p>The initSprites methods initialises the list of <strong>nSprites</strong>, and equal number of blue and green ones.  For this purpose it has static fields for blue and green Paint objects. </p>
+<p><strong>Question:</strong> Having platform-specific graphics-related classes like this in the model is not ideal: can you think of a better way of modelling this?</p>
+<div class="figure">
+<img src="GameModelClass.PNG" alt="GameModel Class" /><p class="caption">GameModel Class</p>
+</div>
+<h2 id="sprite">Sprite</h2>
+<p>Sprites are movable objects that may also have utility methods for handling collisions.  In our simple game the bubbles do not collide with each other, but instead have a <strong>contains</strong> method which is used to test whether a point (clicked by the user) lies within the Sprite. </p>
+<p>Each sprite is modelled as having a position (s) and velocity (v).  Since this is a 2D game, position and velocity are two-dimensional vectors.  There is a separate Vector2d class (see below) which handles all the calculations for these.  The size is specified as a radius (rad).  Each Sprite has a score and a foreground Paint object (fg) for drawing itself.  Respawn will reset the position and give the sprite a new random velocity.  The getScore method returns the number of points this sprite is worth.</p>
+<p> <img src="SpriteClass.PNG" alt="Sprite Class" /></p>
+<h2 id="vector2d">Vector2d</h2>
+<p>Vector2d is a utility class that’s useful for almost any 2D game. For now the main methods of interest are:</p>
+<ul>
+<li>Constructors for creating new vectors.</li>
+<li>Vector addition (<strong>add</strong> method)</li>
+<li>The update(Rect) method: this applies wrap-around calculations so that the vectors are always mapped to lie inside the Rect.</li>
+<li>A distance method (<strong>dist</strong>) useful for checking whether a point is within the radius of a bubble</li>
+</ul>
+<h2 id="zip-file">Zip File</h2>
+<p>Now download the <a href="BubbleGame.zip">.zip file</a> and either open the Intellij project or import it into the IDE of your choice (note, even for Intellij you’ll probably need to set up the SDK).</p>
+<p>Spend some time reading through the code until you have a good understanding of it.  Then attempt the exercise below.</p>
+<h2 id="exercise">Exercise</h2>
+<p>The app as supplied in the .zip file moves creates the bubbles and moves them around the screen, but does not actually function as a game.</p>
+<p>Fix the following aspects to make a simple but functional game:</p>
+<ul>
+<li>Implement event handling so that the user can pop the bubbles.</li>
+<li>Currently the game lasts for a long time (how long?).  Make each game last for 1 minute</li>
+<li>Make the size of the bubbles relative to the screen size or resolution (currently they are fixed in units of pixels)</li>
+<li>Implement some notion of game state: detect when the game is over, and prompt the user to start a new game</li>
+<li>Draw the score and time remaining at suitable points on the screen</li>
+<li>Keep track of the high score and save it in a file</li>
+<li>Make the game full screen and fix the orientation (either portrait or landscape, whichever you think is best)</li>
+<li>Experiment with the speed distribution of the bubbles, and the sizes in order to make the game more fun.</li>
+</ul>
+<p>As an optional additional exercise (more difficult) change the game mechanic from picking to slicing: in order to get rid of a bubble you now have to slice through it.</p>
+</div>
+</div>
+</body>
+</html>

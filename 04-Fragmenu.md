@@ -40,7 +40,7 @@ Where's the value?
 * Next week
 * Sample progress test online
 * 20 Questions
-* 50 Minutes
+* 30 Minutes
 
 
 ## Types of Menu
@@ -72,7 +72,7 @@ Where's the value?
 
 ## Questions
 
-android:id="@id/help" vs android:id="+@id/help"
+android:id="@id/help" vs android:id="@+id/help"
 
 ## Then loading it in Java
 

@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="../../labs.css" type="text/css" />
+</head>
+<body>
+
+ <div id="container">
+<div class="leftNav">
+<ul>
+<li><a href="#gps-and-threads">GPS and Threads</a><ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#sample-code">Sample Code</a></li>
+<li><a href="#receiving-gps-updates">Receiving GPS Updates</a></li>
+<li><a href="#converting-to-kml">Converting to KML</a></li>
+<li><a href="#displaying-a-path">Displaying a Path</a></li>
+<li><a href="#zoom-gesture">Zoom Gesture</a></li>
+<li><a href="#exercises">Exercises</a></li>
+<li><a href="#manifest-file">Manifest File</a></li>
+<li><a href="#threads">Threads</a></li>
+</ul></li>
+</ul>
+</div>
+<div class="main">
+<h1 id="gps-and-threads">GPS and Threads</h1>
+<h2 id="introduction">Introduction</h2>
+<p>The aim of this lab is to gain experience with using a devices GPS receiver to track a users movement over time.  We’ll study a simple app for location tracking, and look at how to:</p>
+<ul>
+<li>Receive GPS updates</li>
+<li>Write the current location to the screen</li>
+<li>Update a file with location estimates</li>
+<li>Convert the data to the XML-based KML format</li>
+<li>Write a simple custom view for displaying a route</li>
+<li>Handle a zoom gesture to zoom in on the route</li>
+</ul>
+<p>There are also some exercises that deal with panning the view, and also to calculate some statistics for the route.</p>
+<p>Concluding the lab you will find an activity that controls multiple threads - you might want to use some of the code provided in your own multi-threading apps.</p>
+<h2 id="sample-code">Sample Code</h2>
+<p>Sample code that illustrates all of the above can be found <a href="GPSTest.zip">here</a>.  Note that the conversion from raw location sampled data to KML is done via a separate application, but this could easily be incorporated into the app.</p>
+<h2 id="receiving-gps-updates">Receiving GPS Updates</h2>
+<p>The main part of this is to write a listener to handle the GPS events.  In the code I’ve provided the listener does calls a method to do two things each time it receives a GPS update: it updates the current position by setting the text in a TextView, and it appends the data to a file.</p>
+<p>The GPS listening code was developed by adapting the example in the <a href="http://developer.android.com/guide/topics/location/strategies.html">Location Strategies</a>.</p>
+<p>To listen for GPS events we need to:</p>
+<ul>
+<li>Provide an implementation of the <strong>LocationListener</strong> interface</li>
+<li>Get a reference to a <strong>LocationManager</strong></li>
+<li>Register the <strong>LocationListener</strong> with the <strong>LocationManager</strong></li>
+</ul>
+<p>The LocationListener interface is written as an anonynmous inner class in the onCreate method of the main activity (which I’ve left with the default name MyActivity).</p>
+<p>This has to provide implementations of all the interface’s methods, but in this case the only one we need to handle is the onLocationChanged event.  This provides a reference to a Location object, but we delegate handling of that to the method <strong>makeUseOfNewLocation</strong>.</p>
+<div class="figure">
+<img src="LocationListener.PNG" alt="LocationListener" /><p class="caption">LocationListener</p>
+</div>
+<p>The onCreate method shows how to add the listener to this.  Note: we also adda TextView to show the status of the GPS listening.  It may be a few seconds until the first onLocationChanged events come through, so it’s good to provide some feedback to the user (“Waiting for Location”) prior to this.</p>
+<div class="figure">
+<img src="MyActivityOnCreate.PNG" alt="MyActivity onCreate" /><p class="caption">MyActivity onCreate</p>
+</div>
+<p>We now consider the impementation of the method to handle the location updates: makeUseOfNewLocation:</p>
+<div class="figure">
+<img src="makeUseOfNewLocation.PNG" alt="makeUseOfNewLocation" /><p class="caption">makeUseOfNewLocation</p>
+</div>
+<p>Although the method is a bit long, it’s actually rather simple: it creates a string to write to the TextView and a string to write to a file.  Having created the strings it then calls <strong>text.setView</strong> to update the view and <strong>logLocation</strong> to write the file.</p>
+<p>The logLocation method is very simple: it just writers a line of data to a PrintWriter:</p>
+<div class="figure">
+<img src="logLocation.PNG" alt="logLocation" /><p class="caption">logLocation</p>
+</div>
+<p>However, it relies on the writer already having been set up.  This is opened in <strong>onStart</strong> and closed in <strong>onStop</strong>.</p>
+<div class="figure">
+<img src="onStopAndStart.PNG" alt="onStop and onStart" /><p class="caption">onStop and onStart</p>
+</div>
+<p>You’ll see that this makes some calls to utility methods.  You can find these in the sample code.</p>
+<h2 id="converting-to-kml">Converting to KML</h2>
+<p><a href="http://en.wikipedia.org/wiki/Keyhole_Markup_Language">KML (Keyhole Markup Language)</a>is an XML-based open standard for describing geospatial data.  You can read more about it by following the link above.</p>
+<p>KML files are viewable in many different apps, including Google Earth.  Try opening the <a href="assets/SampleRoute.kml">Sample KML</a> File in Google Earth (e.g. on a Mobile device or laptop / desktop).</p>
+<p>Here I’ve just used the simplest possible format, converting the set of locations sampled during a walk around campus into a set of Placemark elements in KML.  KML has more appropriate elements for a route, so a useful exercise would be to change the code to use a better KML element type.</p>
+<p>The KMLTest class contains the following two methods: the main method and the getPlace method.  Note the use of the JDOM library for writing out XML data.</p>
+<p>The main method simple reads in the<a href="assets/SampleRoute.txt">raw data file</a> line by line, and sets up the document root element and namespace.</p>
+<div class="figure">
+<img src="KMLMain.PNG" alt="KMLTest main method" /><p class="caption">KMLTest main method</p>
+</div>
+<p>The getPlace method creates a Placemark element for every location on the route:</p>
+<div class="figure">
+<img src="KMLGetPlace.PNG" alt="KMLTest getPlace" /><p class="caption">KMLTest getPlace</p>
+</div>
+<p>Note that creating XML in this way is a bit verbose, but essentially very straightforward.  Question: do you know any more elegant ways of dynamically creating XML documents?</p>
+<p>A raw data file and a sample KML file is provided with the project (see the data directory).</p>
+<p>A screenshot of viewing the sample KML file in Google Earth is shown below.</p>
+<div class="figure">
+<img src="RouteSegmentInEarth.JPG" alt="Route Segment in Google Earth" /><p class="caption">Route Segment in Google Earth</p>
+</div>
+<h2 id="displaying-a-path">Displaying a Path</h2>
+<p>In this section we’ll look at how to take a sequence of locations and render them as a path or route on a custom view.  The relevant code is mostly in the MapView class, and most of the work is done in the <strong>onDraw</strong> method.  In order to simplify this there are two helper classes.  One is called <strong>MyPoint</strong>, which just stores the latitude and longitude of each location, together with an accuracy estimate.</p>
+<div class="figure">
+<img src="MyPoint.PNG" alt="MyPoint" /><p class="caption">MyPoint</p>
+</div>
+<p>There is also a class to model a path, called <strong>MyPath</strong>.  This provides a convenient way to find the range of coordinates in a path (the min and max of the latitudes and longitudes).  It also stores all the points in a list, though of course we would not need a separate class just to do that.  MyPath uses <strong>StatSummary</strong> objects ssx and ssy to find the range of values.  StatSummary is a useful utility class that I wrote many years ago and have used hundreds of times since.</p>
+<div class="figure">
+<img src="MyPath.PNG" alt="MyPath" /><p class="caption">MyPath</p>
+</div>
+<p> </p>
+<p>We’ll now break the <strong>onDraw</strong> method of <strong>MapView</strong> into two parts.  First of all we’ll look at the code to take the path and calculate its size and centre in degrees, then work out how many pixels we should take per degree.  The calculations should be straightforward but please ask in case anything is unclear.</p>
+<div class="figure">
+<img src="onDrawPart1.PNG" alt="onDrawPart1" /><p class="caption">onDrawPart1</p>
+</div>
+<p>And now we create a <strong>Path</strong> called <strong>cPath</strong> object with which to draw on the Canvas.  We use Path methods moveTo and lineTo to start and then build up the path as we iterate over the points.  When we’ve constructed a path we can then render it with a single call to <strong>canvas.drawPath</strong>.  To calculate the pixel coordinates of each path we first subtract off the centre and then multiply by the number of pixels per degree.  Note the use of scaleFactor.  This controls the zoom.  Also note the translation to the centre of the canvas.  I found it easier to envisage with the origin set to the centre.</p>
+<div class="figure">
+<img src="onDrawPart2.PNG" alt="onDrawPart2" /><p class="caption">onDrawPart2</p>
+</div>
+<h2 id="zoom-gesture">Zoom Gesture</h2>
+<p>So far we’ve handled relatively low-level gestures such as touching and clicking a view.  Android can also handle gestures at a higher level to control panning and zooming plus a range of others.  For more on this see the <a href="http://developer.android.com/training/gestures/index.html">Gestures documentation</a> and the InteractiveChart.zip application (this is a bit complex, but the zoom example below is fairly straightforward.</p>
+<p>To handle pinch gestures to zoom in and out the main thing required is to write a <strong>ScaleListener</strong>.  The code for this is very simple: it just gets the scale factor from the ScaleGestureDetector (a built-in Android class), restricts this to be within a sensible range and then invalidates the view (this is an <strong>inner class</strong> of <strong>MapView</strong>).</p>
+<div class="figure">
+<img src="ScaleListener.PNG" alt="ScaleListener" /><p class="caption">ScaleListener</p>
+</div>
+<p>In order to operate this must to be hooked up to the View, and the touch events that come in to the view must be despatched to the ScaleListener.</p>
+<p>This is achieved with the following:</p>
+<div class="figure">
+<img src="initMethod.PNG" alt="initMethod" /><p class="caption">initMethod</p>
+</div>
+<div class="figure">
+<img src="onTouchEvent.PNG" alt="onTouchEvent" /><p class="caption">onTouchEvent</p>
+</div>
+<p>This leads to the sample path being shown like this (zoomed in a bit)</p>
+<div class="figure">
+<img src="MapViewScreen.png" alt="MapViewScreen" /><p class="caption">MapViewScreen</p>
+</div>
+<h2 id="exercises">Exercises</h2>
+<ol style="list-style-type: decimal">
+<li>Write a method to calculate the distance covered on a path in metres.  How would you make it robust to GPS estimation errors?</li>
+<li>Modify the map view class to draw discs on the view whenever the accuracy error estimate exceeds 4 metres.</li>
+<li>Add code to handle panning of the view.</li>
+<li>Modify the KMLTest code in order to use a more sensible element type for modelling a route or path.  Test it with the supplied data.</li>
+<li>Currently the MapView always shows the same route, while the default activity records new routes.  Add the facility to select which route to view.</li>
+</ol>
+<p>Finally, we gained some experience of handling location data at a low level, but in many cases it would be far more sensible to leverage existing apps for doing this.  In Android you have access to the Google Maps API for this purpose: you can read more about this <a href="https://developers.google.com/maps/documentation/android/">here</a>.  This is very powerful, though more specialised than will be covered on this course.</p>
+<h2 id="manifest-file">Manifest File</h2>
+<p>The manifest file is shown here.  Note that the IDE has “prettied” up some of the XML - can you see which parts are not the true XML?</p>
+<p>Note the permissions necessary for this App: it needs to write to external storage and to access GPS locations - these are the most accurate form of location data and are specified by ACCESS_FINE_LOCATION.</p>
+<div class="figure">
+<img src="ManifestFile.PNG" alt="ManifestFile" /><p class="caption">ManifestFile</p>
+</div>
+<h2 id="threads">Threads</h2>
+<p>This is an add-on to the previous lab and lecture. Create a new Activity using your IDE and incorporate the code found <a href="ExecutorActivity.java">here</a>. The activity starts a fixed number of threads (as many as your device supports) and manages them in the onStart and onPause method. Each thread simply calculates Fibonacci sequences. In order to see CPU loads, you need to enable “Show CPU Usage” on your phone or emulator (under settings/developer options).</p>
+<p>Run the code, observe the CPU load going up and see the logging events coming up as the apps is destroyed/paused. See <a href="http://developer.android.com/tools/debugging/debugging-devtools.html" class="uri">http://developer.android.com/tools/debugging/debugging-devtools.html</a> for an explanation on what the bars mean. The three numbers represent the system load for the last one minute/last five minutes/last fifteen minutes. What will happen if you disable onPause()?</p>
+</div>
+</div>
+</body>
+</html>

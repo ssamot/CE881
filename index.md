@@ -14,11 +14,12 @@ The lecture notes and lab scripts for this course will be made available and fur
 ## Lectures
 Lectures take place on **Tuesday 09:00-11:00 at Room TC1.12** in the Teaching centre. 
 
-* [Introduction (Apps and the Android platform)](./slides/01-Introduction-slides.pdf), [Handouts](./slides/01-Introduction-handouts.pdf)
-* [Layouts (and dynamic view switching)](./slides/02-Layout-slides.pdf), [Handouts](./slides/02-Layout-handouts.pdf)
-* [Components, Activity Lifecycle and Intents](./slides/03-Lifecycles-slides.pdf), [Handouts](./slides/03-Lifecycles-handouts.pdf)
-* [Menus, Dialogs and Fragments](./slides/04-Fragmenu-slides.pdf), [Handouts](./slides/04-Fragmenu-handouts.pdf)
-
+* [Lecture 1: Introduction (Apps and the Android platform)](./slides/01-Introduction-slides.pdf), [Handouts](./slides/01-Introduction-handouts.pdf)
+* [Lecture 2: Layouts (and dynamic view switching)](./slides/02-Layout-slides.pdf), [Handouts](./slides/02-Layout-handouts.pdf)
+* [Lecture 3: Components, Activity Lifecycle and Intents](./slides/03-Lifecycles-slides.pdf), [Handouts](./slides/03-Lifecycles-handouts.pdf)
+* [Lecture 4: Menus, Dialogs and Fragments](./slides/04-Fragmenu-slides.pdf), [Handouts](./slides/04-Fragmenu-handouts.pdf)
+* [Lecture 5: Sensors](./slides/05-Sensors-slides.pdf), [Handouts](./slides/05-Sensors-handouts.pdf)
+* [Lecture 6: Threads and Surface Views](./slides/06-Threads-slides.pdf), [Handouts](./slides/06-Threads-handouts.pdf)
 
 ## Labs
 Labs are every **Thursday 13:00-15:00, CES Lab 3**. Be sure to work through the labs carefully, and to check that you understand the material and can answer the quiz questions (where applicable) at the end.
@@ -26,7 +27,10 @@ Labs are every **Thursday 13:00-15:00, CES Lab 3**. Be sure to work through the 
 * [Lab 1: Hello World and beyond](./labs/lab1/01-labs.html)
 * [Lab 2: Lights On!](./labs/lab2/02-labs.html)
 * [Lab 3: Lights On Continued...!](./labs/lab3/03-labs.html)
-* [Lab 4: Lights On with Custom Dialogs!](./labs/lab3/03-labs.html)
+* [Lab 4: Lights On with Custom Dialogs!](./labs/lab4/04-labs.html)
+* [Lab 5: Bubble Game!](./labs/lab5/05-labs.html)
+* [Lab 6: GPS and Threads](./labs/lab6/06-labs.html)
+
 
 
 ## Sample Apps
@@ -46,7 +50,7 @@ The assessment schedule is listed below.  The main assignment is to produce an A
 Some ideas for possible apps are provided [here](./labs/suggestions/suggestions.html).
 
 * Progress Test [sample](./assignments/sample_progress_test.pdf) (10%, wk 20)
-* Assignment 1 (TBA) (wk 21)
+* [Assignment 1](./assignments/CE881Assignment1.pdf) (wk 22)
 * Assignment 2 (TBA) (wk 25)
 
 See timetable for progress test time and Online Coursework Submission (OCS) server for exact assignment deadline.  Be sure to observe the submission deadlines: late work gets zero.

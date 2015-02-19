@@ -1,3 +1,5 @@
+# Lab 4: Lights On with Custom Dialogs!
+
 ## Introduction
 
 This is the final lab covering the LightsOn puzzle.  The aim is to study
@@ -24,7 +26,7 @@ create specific icons for your menu items, and also experiment with
 adding them to the ActionBar.
 
 The [MenusAndDialogs.zip](MenusAndDialogs.zip) project contains the code
-discussed in the lecture, including the experiemtal dynamic icon
+discussed in the lecture, including the experimental dynamic icon
 generation code.
 
 ## Custom Dialogs
@@ -122,7 +124,7 @@ game).
 
 Parts of this lab have been a bit open-ended - so we'll be very
 interested to see the solutions you develop!  A solution that
-demostrates the key concepts will be circulated some time after the lab.
+demonstrates the key concepts will be circulated some time after the lab.
 
  
 

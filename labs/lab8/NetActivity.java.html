@@ -1,0 +1,126 @@
+<html>
+<head>
+<title>NetActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(0,128,0); font-weight: bold; }
+.s4 { color: rgb(0,0,255); }
+.auto-style1 {
+	color: #808080;
+}
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+NetActivity.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="auto-style1">// package and import statements omitted</span></pre>
+<pre>
+<span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">NetActivity </span><span class="s0">extends </span><span class="s1">Activity { 
+ 
+    WebView webView; 
+ 
+    </span><span class="s2">/** 
+     * Called when the activity is first created. 
+     */</span><span class="s1"> 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onCreate(Bundle savedInstanceState) { 
+        </span><span class="s0">super</span><span class="s1">.onCreate(savedInstanceState); 
+        webView = </span><span class="s0">new </span><span class="s1">WebView(</span><span class="s0">this</span><span class="s1">); 
+        webView.loadData(</span><span class="s3">&quot;&lt;html&gt;&lt;body&gt;Use menu to load data&lt;/body&gt;&lt;/html&gt;&quot;</span><span class="s1">, 
+                </span><span class="s3">&quot;text/html&quot;</span><span class="s1">, </span><span class="s0">null</span><span class="s1">); 
+        setContentView(webView); 
+    } 
+ 
+    </span><span class="s0">static </span><span class="s1">String load = </span><span class="s3">&quot;Load&quot;</span><span class="s1">, drop = </span><span class="s3">&quot;Drop&quot;</span><span class="s1">; 
+    </span><span class="s0">public boolean </span><span class="s1">onCreateOptionsMenu(Menu menu) { 
+        menu.add(load); 
+        menu.add(drop); 
+        </span><span class="s0">return true</span><span class="s1">; 
+    } 
+ 
+    </span><span class="s0">public boolean </span><span class="s1">onOptionsItemSelected(MenuItem item) { 
+        </span><span class="s0">if </span><span class="s1">(item.getTitle().equals(load)) { 
+            </span><span class="s0">try </span><span class="s1">{ 
+                </span><span class="s2">// what are the units of a Toast's duration?</span><span class="s1"> 
+                Toast.makeText(</span><span class="s0">this</span><span class="s1">, </span><span class="s3">&quot;Loading&quot;</span><span class="s1">, Toast.LENGTH_LONG).show();                 
+                System.out.println(</span><span class="s3">&quot;NetTest: Toast Length: &quot; </span><span class="s1">+ Toast.LENGTH_LONG); 
+                loadPage(); 
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                System.out.println(</span><span class="s3">&quot;NetTest: &quot; </span><span class="s1">+ e.toString()); 
+                e.printStackTrace(); 
+            } 
+        } 
+        </span><span class="s0">if </span><span class="s1">(item.getTitle().equals(drop)) { 
+            webView.loadData(</span><span class="s3">&quot;&lt;html&gt;&lt;body&gt;Dropped: Use menu to load data&lt;/body&gt;&lt;/html&gt;&quot;</span><span class="s1">, 
+                    </span><span class="s3">&quot;text/html&quot;</span><span class="s1">, </span><span class="s0">null</span><span class="s1">); 
+        } 
+        </span><span class="s0">return super</span><span class="s1">.onOptionsItemSelected(item); 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">loadPage() { 
+        </span><span class="s0">new </span><span class="s1">WebTask().execute(); 
+    } 
+ 
+    </span><span class="s0">private class </span><span class="s1">WebTask </span><span class="s0">extends </span><span class="s1">AsyncTask&lt;Void, Void, Void&gt; { 
+        </span><span class="s0">long </span><span class="s1">t = System.currentTimeMillis(); 
+        String htmlString = </span><span class="s3">&quot;oops&quot;</span><span class="s1">; 
+        String url = <span class="s3">&quot;http://algoval.essex.ac.uk&quot;</span>;
+ 
+        @Override 
+        </span><span class="s0">protected </span><span class="s1">Void doInBackground(Void... voids) { 
+            </span><span class="s0">try </span><span class="s1">{ 
+               
+              // exercise: write the code to load a web page
+              // as a String from 'url', print the length of the string
+              // and then display the HTML in webView
+
+            } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                htmlString = e.toString(); 
+            } 
+            </span><span class="s0">return null</span><span class="s1">; 
+        } 
+ 
+        </span><span class="s0">protected void </span><span class="s1">onPostExecute(Void result) { 
+            System.out.println(</span><span class="s3">&quot;onPostExecute()&quot;</span><span class="s1">); 
+            webView.loadData(htmlString, </span><span class="s3">&quot;text/html&quot;</span><span class="s1">, </span><span class="s0">null</span><span class="s1">); 
+        } 
+    } 
+ 
+    </span><span class="s2">// Given a string representation of a URL, sets up a connection and gets</span><span class="s1"> 
+    </span><span class="s2">// an input stream.  Method is from developer.android.com NetworkUsage sample</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">InputStream downloadUrl(String urlString) </span><span class="s0">throws </span><span class="s1">IOException { 
+        URL url = </span><span class="s0">new </span><span class="s1">URL(urlString); 
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection(); 
+        conn.setReadTimeout(</span><span class="s4">10000 </span><span class="s2">/* milliseconds */</span><span class="s1">); 
+        conn.setConnectTimeout(</span><span class="s4">15000 </span><span class="s2">/* milliseconds */</span><span class="s1">); 
+        conn.setRequestMethod(</span><span class="s3">&quot;GET&quot;</span><span class="s1">); 
+        conn.setDoInput(</span><span class="s0">true</span><span class="s1">); 
+        </span><span class="s2">// Starts the query</span><span class="s1"> 
+        conn.connect(); 
+        InputStream stream = conn.getInputStream(); 
+        </span><span class="s0">return </span><span class="s1">stream; 
+    } 
+ 
+    </span><span class="s2">// this method shows how to read bytes from a stream until EoS</span><span class="s1"> 
+    </span><span class="s0">private void </span><span class="s1">readBytes(InputStream is) </span><span class="s0">throws </span><span class="s1">IOException { 
+        </span><span class="s0">int </span><span class="s1">x; 
+        </span><span class="s0">while </span><span class="s1">(((x = is.read())) != -</span><span class="s4">1</span><span class="s1">) { 
+            System.out.println(x); 
+        } 
+        is.close(); 
+    } 
+} 
+ 
+</span></pre>
+</body>
+</html>

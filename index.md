@@ -20,6 +20,7 @@ Lectures take place on **Tuesday 09:00-11:00 at Room TC1.12** in the Teaching ce
 * [Lecture 4: Menus, Dialogs and Fragments](./slides/04-Fragmenu-slides.pdf), [Handouts](./slides/04-Fragmenu-handouts.pdf)
 * [Lecture 5: Sensors](./slides/05-Sensors-slides.pdf), [Handouts](./slides/05-Sensors-handouts.pdf)
 * [Lecture 6: Threads and Surface Views](./slides/06-Threads-slides.pdf), [Handouts](./slides/06-Threads-handouts.pdf)
+* [Lecture 7: Persistence](./slides/07-Persistance-slides.pdf), [Handouts](./slides/07-Persistance-handouts.pdf)
 
 ## Labs
 Labs are every **Thursday 13:00-15:00, CES Lab 3**. Be sure to work through the labs carefully, and to check that you understand the material and can answer the quiz questions (where applicable) at the end.
@@ -30,6 +31,8 @@ Labs are every **Thursday 13:00-15:00, CES Lab 3**. Be sure to work through the 
 * [Lab 4: Lights On with Custom Dialogs!](./labs/lab4/04-labs.html)
 * [Lab 5: Bubble Game!](./labs/lab5/05-labs.html)
 * [Lab 6: GPS and Threads](./labs/lab6/06-labs.html)
+* [Lab 7: SQ Lite](./labs/lab7/07-labs.html)
+* [Lab 8: Networking](./labs/lab8/08-labs.html)
 
 
 

@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="../../labs.css" type="text/css" />
+</head>
+<body>
+
+ <div id="container">
+<div class="leftNav">
+<ul>
+<li><a href="#ce881-lab-networking">CE881 Lab: Networking</a><ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#intent">Intent</a></li>
+<li><a href="#http-exercise">HTTP Exercise</a></li>
+<li><a href="#rest-based-api">REST-based API</a></li>
+<li><a href="#exercise">Exercise</a></li>
+<li><a href="#tidying-up">Tidying Up</a></li>
+</ul></li>
+</ul>
+</div>
+<div class="main">
+<h1 id="ce881-lab-networking">CE881 Lab: Networking</h1>
+<h2 id="introduction">Introduction</h2>
+<p>The aim of this lab is to work through a number of ways to connect your app with other apps and with web applications.  The lab follows on from the <a href="../../lectures/Networking.pptx">Networking</a> lecture notes.</p>
+<p>The aim of the app we’ll develop is to illustrate the following concepts:</p>
+<ul>
+<li>Using the Intent.ACTION_SEND to share information</li>
+<li>Making connections to HTTP servers to download data under program control (i.e. not using a component such as a WebView which does all the work behind the scenes)</li>
+<li>Using a simple REST API to retrieve a list of high scores from the web server using the JSON format</li>
+</ul>
+<p>To get started spend some time re-reading the sample code we studied in the lecture:</p>
+<ul>
+<li><a href="NetActivity.java.html">NetActivity.java</a></li>
+</ul>
+<p>Now download and run a broken version of an app you’ll complete as part of this lab.</p>
+<p>The .zip file is <a href="NetworkSimpleTestBroken.zip" class="uri">NetworkSimpleTestBroken.zip</a></p>
+<p> </p>
+<h2 id="intent">Intent</h2>
+<p>In a previous lab we looked at using Intents to launch a WebView that could view web pages.  Here we look at another alternative: Intent.ACTION_SEND.</p>
+<p>Run the broken version of the app, and test the Share menun item.  This should work, though if running on an emulator you might be limited to simulating sending a message:</p>
+<div class="figure">
+<img src="SharingIntentEmulator.PNG" alt="Sharing Intent Emulation" /><p class="caption">Sharing Intent Emulation</p>
+</div>
+<p>On a real device you will typically see a range of sharing options.</p>
+<p>The code is in the sharingTest method:</p>
+<div class="figure">
+<img src="SharingTest.PNG" alt="Sharing Test Method" /><p class="caption">Sharing Test Method</p>
+</div>
+<p>If an application has a filter that matches ACTION_SEND and MIME type text/plain, the Android system will run it; if more than one application matches, the system displays a disambiguation dialog (a “chooser”) that allows the user to choose an app. If you call Intent.createChooser() for the intent, Android will always display the chooser.</p>
+<p>For more detail see <a href="http://developer.android.com/training/sharing/send.html">here</a>.</p>
+<h2 id="http-exercise">HTTP Exercise</h2>
+<p>The code for downloading a String from a URL using an HTTP request is missing from the doInBackground method:</p>
+<div class="figure">
+<img src="doInBackgroundExercise.PNG" alt="doInBackground" /><p class="caption">doInBackground</p>
+</div>
+<p>Write the code (where it says “// write rest of method here”) to make the method function correctly.  It should download a String from a web site.  As an additional exercise try to print how long the download took and the size of the downlaod to the logcat.</p>
+<p>Using a standard URL should work either in the emulator or on a device.</p>
+<p>When writing the code for this you should use the <strong>NetUtil.loadString()</strong> method to load the HTML string from the server:</p>
+<div class="figure">
+<img src="NetUtil.PNG" alt="NetUtil" /><p class="caption">NetUtil</p>
+</div>
+<p>The version of <strong>loadString()</strong> supplied is broken.  Before testing the Android app you should fix the bug (as discussed in the lecture) and make it work from the main method.  If it works you should see an HTML string printed to the standard output.</p>
+<div class="figure">
+<img src="NetUtilTest.PNG" alt="NetUtil.loadString test" /><p class="caption">NetUtil.loadString test</p>
+</div>
+<p>When you get it working test the “Load” menu item.  Within the emulator it could look like this (the example uses <a href="http://algoval.essex.ac.uk" class="uri">http://algoval.essex.ac.uk</a> as the URL).</p>
+<div class="figure">
+<img src="LoadTestWorking.PNG" alt="Load menu item working" /><p class="caption">Load menu item working</p>
+</div>
+<h2 id="rest-based-api">REST-based API</h2>
+<p>The example of loading an HTML string to insert into a WebView is a bit artificial - so far we’ve not seen any advantage over letting the WebView do all the work.</p>
+<p>However, by programming the details of making HTTP Connections to URLs we can now experiment with a simple REST-based API.  REST offers a wonderfully simply way for a networked application to interact with a server. REST uses HTTP to send requests to the server and interpret the responses.  In the simplest case we can use HTTP GET.  This works well when all the information to be sent to the server can easily be encoded in short strings.  When this is not the case, HTTP POST can be used.</p>
+<p> </p>
+<p>We can take the score example studied in the SQL lab and now adapt this to a REST-based API.  There are two aspects to implementing this: the server side and the client side.  First we’ll look at the client side.</p>
+<p>One of the advantages of using GET is that we can test the interactions with the web server in a web browser, simply by clicking the links. Recall the ScoreDB interface class:</p>
+<div class="figure">
+<img src="ScoreDBInterface.PNG" alt="DBInterface" /><p class="caption">DBInterface</p>
+</div>
+<p>We can check these by clicking the links below:</p>
+<ul>
+<li>highScore: <a href="http://algoval:8080/index2.jsp?request=highScore" class="uri">http://algoval:8080/index2.jsp?request=highScore</a></li>
+<li>topN: <a href="http://algoval:8080/index2.jsp?request=topN&amp;N=2" class="uri">http://algoval:8080/index2.jsp?request=topN&amp;N=2</a></li>
+<li>addScore: <a href="http://algoval:8080/index2.jsp?request=addScore&amp;person=Jenny&amp;score=6500">http://algoval:8080/index2.jsp?request=addScore&amp;person=Jenny&amp;score=6500<br /></a></li>
+</ul>
+<p>Play with the URL strings in your browser address bar and observe the effects of:</p>
+<ul>
+<li>changing the value of N in topN</li>
+<li>omitting the value of N in topN</li>
+<li>adding different score in addScore</li>
+</ul>
+<h2 id="exercise">Exercise</h2>
+<p>Now write client side code to read in the return values of topN and display the top 5 scores in a web view either as plain text or as an HTML table (plain text is simpler and fine for the purpose of the exercise).  Add a menu item called topN to invoke the code and display it.</p>
+<p>In order to help you with this you can use this utility class to get you started.  It demonstrates how to read in the list of scores from a JSON string.</p>
+<p>An easy way to read and write JSON is to use Google’s <a href="gson-2.2.4.jar">gson library</a>.  Download this and add it to your lib directory.  You’ll also need to add it to the list of dependencies in your IDE.</p>
+<div class="figure">
+<img src="JsonTest.PNG" alt="JsonTest" /><p class="caption">JsonTest</p>
+</div>
+<p>Note that I have introduced another class called <strong>ScoreList</strong> to simplify the process of decoding an array list of scores from JSON:</p>
+<div class="figure">
+<img src="ScoreList.PNG" alt="ScoreList" /><p class="caption">ScoreList</p>
+</div>
+<p>Now add another menu item to add scores using the REST approach.</p>
+<p>Note: for each of these you will need to build URL strings that encode the necessary query parameters: refer to the above links for examples of how these should look.</p>
+<p><strong>Server Side</strong></p>
+<p>The server part is a bit outside the scope of this lab.  Any implementation able to decode the GET requests and return the necessary JSON objects would be fine.</p>
+<p>My implementation running is done using JSP plus a few helper classes.  The JSP page is shown below:</p>
+<div class="figure">
+<img src="JSPPage.PNG" alt="JSP Page" /><p class="caption">JSP Page</p>
+</div>
+<p>The complete project for it is <a href="WebServerTest.zip">here</a>.</p>
+<h2 id="tidying-up">Tidying Up</h2>
+<p>The code for this could easily become a bit messy: maybe you already did this, but try writing a new implementation of ScoreDB called JsonDB that wraps up all these methods and makes the code very easy to use.</p>
+<p> </p>
+</div>
+</div>
+</body>
+</html>

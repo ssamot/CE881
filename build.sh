@@ -55,6 +55,20 @@ pandoc -s -S --toc --template=custom.html -c "./labs.css" index.md -o index.html
 # pandoc --slide-level 2 --template=custom.beamer --toc -t beamer $lec_name.md -o ./slides/$lec_name-slides.pdf
 # pdfnup ./slides/$lec_name-slides.pdf -q --nup 2x2 --noautoscale false --delta "0.2cm 0.3cm" --frame true --scale 0.95 -o ./slides/$lec_name-handouts.pdf
 
-lab_name=6
+# lab_name=6
+# echo "Building html for lab "$lab_name
+# pandoc -s -S --toc --template=custom.html -c "../../labs.css" 0$lab_name-labs.md -o ./labs/lab$lab_name/0$lab_name-labs.html
+
+# lec_name="07-Persistance"
+# echo "Building Slides for "$lec_name
+# pandoc --slide-level 2 --template=custom.beamer --toc -t beamer $lec_name.md -o ./slides/$lec_name-slides.pdf
+# pdfnup ./slides/$lec_name-slides.pdf -q --nup 2x2 --noautoscale false --delta "0.2cm 0.3cm" --frame true --scale 0.95 -o ./slides/$lec_name-handouts.pdf
+
+
+# lab_name=7
+# echo "Building html for lab "$lab_name
+# pandoc -s -S --toc --template=custom.html -c "../../labs.css" 0$lab_name-labs.md -o ./labs/lab$lab_name/0$lab_name-labs.html
+
+lab_name=8
 echo "Building html for lab "$lab_name
 pandoc -s -S --toc --template=custom.html -c "../../labs.css" 0$lab_name-labs.md -o ./labs/lab$lab_name/0$lab_name-labs.html

@@ -1,0 +1,144 @@
+<H3><A name=Introduction>Introduction</A></H3>
+
+<p>The aim of this lab is to work through a number of ways to connect your app 
+with other apps and with web applications.&nbsp; The lab follows on from the
+<a href="../../lectures/Networking.pptx">Networking</a> lecture notes.</p>
+	<p>The aim of the app we'll develop is to illustrate the following concepts:</p>
+	<ul>
+		<li>Using the Intent.ACTION_SEND to share information</li>
+		<li>Making connections to HTTP servers to download data under program 
+		control (i.e. not using a component such as a WebView which does all the 
+		work behind the scenes)</li>
+		<li>Using a simple REST API to retrieve a list of high scores from the 
+		web server using the JSON format</li>
+	</ul>
+	<p>To get started spend some time re-reading the sample code we studied in 
+	the lecture:</p>
+	<ul>
+		<li><a href="NetActivity.java.html">NetActivity.java</a></li>
+	</ul>
+	<p>Now download and run a broken version of an app you'll complete as part 
+	of this lab.</p>
+	<p>The .zip file is <a href="NetworkSimpleTestBroken.zip">
+	NetworkSimpleTestBroken.zip</a></p>
+	<p>&nbsp;</p>
+	<h3><a name="Intent">Intent</a></h3>
+	<p>In a previous lab we looked at using Intents to launch a WebView that 
+	could view web pages.&nbsp; Here we look at another alternative: 
+	Intent.ACTION_SEND.</p>
+	<p>Run the broken version of the app, and test the Share menun item.&nbsp; 
+	This should work, though if running on an emulator you might be limited to 
+	simulating sending a message:</p>
+	<p>
+	<img alt="Sharing Intent Emulation" height="615" src="SharingIntentEmulator.PNG" width="379"></p>
+	<p>On a real device you will typically see a range of sharing options.</p>
+	<p>The code is in the sharingTest method:</p>
+	<p>
+	<img alt="Sharing Test Method" height="217" src="SharingTest.PNG" width="553"></p>
+	<p>If an application has a filter that matches ACTION_SEND and MIME type 
+	text/plain, the Android system will run it; if more than one application 
+	matches, the system displays a disambiguation dialog (a &quot;chooser&quot;) that 
+	allows the user to choose an app. If you call Intent.createChooser()&nbsp;for the 
+	intent, Android will&nbsp;always&nbsp;display the chooser. </p>
+	<p>For more detail see 	<a href="http://developer.android.com/training/sharing/send.html">here</a>.</p>
+	<h3><a name="HTTP Exercise">HTTP Exercise</a></h3>
+	<p>The code for downloading a String from a URL using an HTTP request is 
+	missing from the doInBackground method:</p>
+	<p>
+	<img alt="doInBackground" height="355" src="doInBackgroundExercise.PNG" width="690"></p>
+	<p>Write the code (where it says &quot;// write rest of method here&quot;) to make the 
+	method function correctly.&nbsp; It should download a String from a web 
+	site.&nbsp; As an additional exercise try to print how long the download 
+	took and the size of the downlaod to the logcat.</p>
+	<p>Using a standard URL should work either in the emulator or on a device.</p>
+	<p>When writing the code for this you should use the <strong>
+	NetUtil.loadString()</strong> method to load the HTML string from the 
+	server:</p>
+	<p><img alt="NetUtil" height="564" src="NetUtil.PNG" width="752"></p>
+	<p>The version of <strong>loadString()</strong> supplied is broken.&nbsp; 
+	Before testing the Android app you should fix the bug (as discussed in the 
+	lecture) and make it work from the main method.&nbsp; If it works you should 
+	see an HTML string printed to the standard output.</p>
+	<p>
+	<img alt="NetUtil.loadString test" height="299" src="NetUtilTest.PNG" width="720"></p>
+	<p>When you get it working test the &quot;Load&quot; menu item.&nbsp; Within the 
+	emulator it could look like this (the example uses
+	<a href="http://algoval.essex.ac.uk">http://algoval.essex.ac.uk</a> as the 
+	URL).</p>
+	<p>
+	<img alt="Load menu item working" height="397" src="LoadTestWorking.PNG" width="400"></p>
+	<h3><a name="REST-based API">REST-based API</a></h3>
+	<p>The example of loading an HTML string to insert into a WebView is a bit 
+	artificial - so far we've not seen any advantage over letting the WebView do 
+	all the work.</p>
+	<p>However, by programming the details of making HTTP Connections to URLs we 
+	can now experiment with a simple REST-based API.&nbsp; REST offers a 
+	wonderfully simply way for a networked application to interact with a 
+	server. REST uses HTTP to send requests to the server and interpret the 
+	responses.&nbsp; In the simplest case we can use HTTP GET.&nbsp; This works 
+	well when all the information to be sent to the server can easily be encoded 
+	in short strings.&nbsp; When this is not the case, HTTP POST can be used.</p>
+	<p>&nbsp;</p>
+	<p>We can take the score example studied in the SQL lab and now adapt this 
+	to a REST-based API.&nbsp; There are two aspects to implementing this: the 
+	server side and the client side.&nbsp; First we'll look at the client side.</p>
+	<p>One of the advantages of using GET is that we can test the interactions 
+	with the web server in a web browser, simply by clicking the links. Recall 
+	the ScoreDB interface class:</p>
+	<p>
+	<img alt="DBInterface" height="120" src="ScoreDBInterface.PNG" width="335"></p>
+	<p>We can check these by clicking the links below:</p>
+	<ul>
+		<li>highScore:
+		<a href="http://algoval:8080/index2.jsp?request=highScore">
+		http://algoval:8080/index2.jsp?request=highScore</a></li>
+		<li>topN:
+		<a href="http://algoval:8080/index2.jsp?request=topN&amp;N=2">
+		http://algoval:8080/index2.jsp?request=topN&amp;N=2</a></li>
+		<li>addScore:
+		<a href="http://algoval:8080/index2.jsp?request=addScore&amp;person=Jenny&amp;score=6500">
+		http://algoval:8080/index2.jsp?request=addScore&amp;person=Jenny&amp;score=6500<br>
+		</a></li>
+	</ul>
+	<p>Play with the URL strings in your browser address bar and observe the 
+	effects of:</p>
+	<ul>
+		<li>changing the value of N in topN</li>
+		<li>omitting the value of N in topN</li>
+		<li>adding different score in addScore</li>
+	</ul>
+	<h3><a name="Exercise">Exercise</a></h3>
+	<p>Now write client side code to read in the return values of topN and 
+	display the top 5 scores in a web view either as plain text or as an HTML 
+	table (plain text is simpler and fine for the purpose of the exercise).&nbsp; 
+	Add a menu item called topN to invoke the code and display it.</p>
+	<p>In order to help you with this you can use this utility class to get you 
+	started.&nbsp; It demonstrates how to read in the list of scores from a JSON 
+	string.</p>
+	<p>An easy way to read and write JSON is to use Google's
+	<a href="gson-2.2.4.jar">gson library</a>.&nbsp; Download this and add it to 
+	your lib directory.&nbsp; You'll also need to add it to the list of 
+	dependencies in your IDE.</p>
+	<p><img alt="JsonTest" height="410" src="JsonTest.PNG" width="699"></p>
+	<p>Note that I have introduced another class called <strong>ScoreList</strong> 
+	to simplify the process of decoding an array list of scores from JSON:</p>
+	<p><img alt="ScoreList" height="172" src="ScoreList.PNG" width="533"></p>
+	<p>Now add another menu item to add scores using the REST approach.</p>
+	<p>Note: for each of these you will need to build URL strings that encode 
+	the necessary query parameters: refer to the above links for examples of how 
+	these should look.</p>
+	<p><strong>Server Side</strong></p>
+	<p>The server part is a bit outside the scope of this lab.&nbsp; Any 
+	implementation able to decode the GET requests and return the necessary JSON 
+	objects would be fine.</p>
+	<p>My implementation running is done using JSP plus a few helper classes.&nbsp; 
+	The JSP page is shown below:</p>
+	<p><img alt="JSP Page" height="786" src="JSPPage.PNG" width="741"></p>
+	<p>The complete project for it is <a href="WebServerTest.zip">here</a>.</p>
+	<h3><a name="Tidying Up">Tidying Up</a></h3>
+	<p>The code for this could easily become a bit messy: maybe you already did 
+	this, but try writing a new implementation of ScoreDB called JsonDB that 
+	wraps up all these methods and makes the code very easy to use.</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<P class=end>end of page

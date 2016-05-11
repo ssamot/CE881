@@ -3,8 +3,7 @@
 ## Introduction
 
 The aim of this lab is to work through a number of ways to connect your
-app with other apps and with web applications.  The lab follows on from
-the [Networking](../../lectures/Networking.pptx) lecture notes.
+app with other apps and with web applications.  This lab comes ahead of the networking lecture notes, and is a prelude to Tuesdays lecture.
 
 The aim of the app we'll develop is to illustrate the following
 concepts:
@@ -16,8 +15,7 @@ concepts:
 -   Using a simple REST API to retrieve a list of high scores from the
     web server using the JSON format
 
-To get started spend some time re-reading the sample code we studied in
-the lecture:
+To get started spend some time reading some sample code:
 
 -   [NetActivity.java](NetActivity.java.html)
 
@@ -76,7 +74,7 @@ When writing the code for this you should use the
 ![NetUtil](NetUtil.PNG)
 
 The version of **loadString()** supplied is broken.  Before testing the
-Android app you should fix the bug (as discussed in the lecture) and
+Android app you should find and fix the bug and
 make it work from the main method.  If it works you should see an HTML
 string printed to the standard output.
 

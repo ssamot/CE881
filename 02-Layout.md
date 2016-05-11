@@ -1,21 +1,48 @@
 ---
-title:  'Layouts (and dynamic view switching)'
+title:  'Testing, Layouts (and dynamic view switching)'
 subtitle: 'CE881: Mobile and Social Application Programming'
-author: Simon Lucas \& Spyros Samothrakis
+author: Spyros Samothrakis
 tags: [nothing, nothingness]
-date: January 20, 2015
-theme: Warsaw
+date: January 18, 2015
 ...
 
 
 # Interesting Cultural Artefacts
 ## Movies, Books and Websites
+
+
+\columnsbegin
+\column{.5\textwidth}
+
+
 * Design of everyday things
 	* Great book on usability
 * http://androidniceties.tumblr.com/
 	* Collection of screenshots of good looking apps
 * Minority Report
 	* User Interface
+	* Augmented reality app?
+
+
+\column{.3\textwidth}
+
+\includegraphics[width = 1.2\textwidth, trim=0cm 0cm 0cm 0cm, clip=true]{graphics/lec2/design.jpg}
+
+\columnsend
+
+## Keyboard propaganda (1)
+
+\includegraphics[scale = 0.35, page = 1]{graphics/IntelliJIDEA_ReferenceCard_WL.pdf}
+
+## Keyboard propaganda (2)
+* Learn how to touch type
+* Ctrl+Shift+A (Meta - search for shortcut/action)
+* Ctrl+B (Go to declaration)
+* Ctrl+U (Go to superclass)
+* Ctrl+J (Insert template)
+\includegraphics[width = 0.6\textwidth, angle =180, trim=0cm 0cm 0cm 7cm, clip=true]{graphics/lec4/ideashirt.jpg}
+
+\tiny http://stackoverflow.com/questions/294167/what-are-the-most-useful-intellij-idea-keyboard-shortcuts
 
 ## Apps
 * Apps that (I think) look great
@@ -24,6 +51,90 @@ theme: Warsaw
 	* DuoLingo
 	* Inbox by Gmail
 	* Reddit News Pro
+
+# Testing
+## Testing? 
+* An app is not considered complete before testing
+* A method of confirming that your code does what it is expected to do
+* Broadly, three kinds of tests
+	* Functional tests
+	* Unit tests
+	* Integration tests
+* But these are ad-hoc categories 
+
+
+## Why Unit tests? 
+* How do you know if what you have done works or not? 
+	* Buggy apps going to full deployment
+* Multiple platforms to deploy to - how do you know if your app works in all of them? 
+	* Mostly commercial tools to address this
+* What impact does a change in one part of the code have in the rest? 
+	* Good software is tested exhaustively  
+* Ideally one would have a fully automated cycle of development-testing-deployment
+
+
+##  Android/Junit
+* The standard method of unit testing in Java is JUnit
+
+
+\tiny
+
+~~~{.java}
+@RunWith(AndroidJUnit4.class)
+@LargeTest
+public class MainActivityInstrumentationTest {
+
+    @Rule
+    public ActivityTestRule mActivityRule = new ActivityTestRule<>(
+            MainActivity.class);
+
+    @Test
+    public void sayHello(){
+        onView(withText("Say hello!")).perform(click());
+
+        onView(withId(R.id.textView)).check(matches(withText("Hello, World!")));
+    }
+}
+
+~~~~
+ 
+## Junit
+* Notice the heavy use of Aspect Oriented Programming (AOP) features
+* "Interceptors"
+\tiny http://developer.android.com/reference/android/support/test/rule/ActivityTestRule.html
+* Again, apps that have no automated testing break often
+* Embrace change!
+
+
+
+## More than GUIs
+* You can simulate most events: 
+	* Swipes
+	* Clicks
+	* Text input
+
+* Should be part of your gradle lifecycle
+* What about external resources? 
+* https://coveralls.io/ - Coverage?
+
+http://developer.android.com/tools/testing/testing_android.html
+http://developer.android.com/tools/testing/testing-tools.html
+
+## Continuous Integration
+* Git commit
+* Compilation
+* Test Run
+* Report
+* Travis CI
+
+
+## Test-Driven development
+* Might a good idea to write tests first
+* Why? 
+
+
+
+
 
 # Layouts
 
@@ -273,4 +384,5 @@ theme: Warsaw
 * Used AsyncTask derived objects to perform tasks on the UI thread
 * Next we need to gain a better understanding of good app design
 * Knowledge of the Activity lifecycle will be needed for this
+* Some of the slides based on Simon Lucas previous course
 

@@ -1,11 +1,10 @@
----
-title:  'Introduction (Apps and the Android platform)'
-subtitle: 'CE881: Mobile and Social Application Programming'
-author: Simon Lucas \& Spyros Samothrakis
-tags: [nothing, nothingness]
-date: January 13, 2015
-theme: Warsaw
-...
+% Introduction (Apps and the Android platform)
+% Spyros Samothrakis \
+  Research Fellow, IADS \
+  Univerisity of Essex 
+% January 11, 2016
+
+
 
 
 # About the Course
@@ -16,9 +15,9 @@ theme: Warsaw
 	* 2-hour lab: practice writing and debugging apps
 * Assessment:
 	* 2 assignments
-		* App prototype (20%, wk 19)
-		* Final app (70%, wk 25)
-* 1 progress test (10%, wk 20)
+		* App prototype (20%, wk 21)
+		* Final app (65%, wk 30)
+* 1 progress test (15%, wk 20)
 	* Multi-choice test under exam conditions
 
 
@@ -40,7 +39,7 @@ theme: Warsaw
 	* Casual e.g., reaction games, card games, board games, Tetris, physics-based
 	* Arcade e.g., Asteroids
 	* 3D Console Style e.g. Grand Theft Auto
-	* Social e.g.  Quiz (though QuizUp not yet on Android)
+	* Social e.g.  Quiz/ QuizUp
 * Social
 	* Facebook, Twitter
 
@@ -96,40 +95,13 @@ theme: Warsaw
 * Don’t bother trying to get all the details fully specified before implementing anything
 
 
-## Example
-* 5 x 5 grid
-* Deck of letter cards shuffled before each game
-* Place each letter in the grid to optimise total word score
-* Once a letter is placed it cannot be moved
-* Scores: 5 -> 10, 4 -> 7, 3 -> 3, 2 -> 1
-* A longer word overrides sub-words
-* The pack has 52 cards and a single joker (wildcard)
-* More popular cards have more copies in the deck
-	* E.g., 4 Es, 1 Q
-* Let’s PLAY!!!
+## Commercial Vs Research
+* Let's have a look at possible projects for the course
+* Research Project? 
+	* Different style, different audience
+* Commercial focus? 
+	* What makes a good up sell? 
 
-## Play?
-\center
-\includegraphics[scale = 0.35]{graphics/griddle.jpg}
-
-## Sample App - Griddle
-\columnsbegin
-\column{.5\textwidth}
-
-* Interesting case study
-* Simple but enjoyable game
-* Illustrates:
-	* Reading asset files
-	* Saving and loading state
-	* Custom Views
-	* Event Handling
-	* Visualising information
-	* Designing card decks for satisfying game experience
-
-\column{.5\textwidth}
-\center
-\includegraphics[width = \textwidth]{graphics/griddle.jpg}
-\columnsend
 
 ## Use a Good IDE (e.g., IntelliJ or Eclipse)
 
@@ -347,19 +319,11 @@ http://developer.android.com/tools/projects/index.html
 
 ## Recommended reading
 
-\columnsbegin
-\column{.5\textwidth}
+[Programming Android: Java Programming for the New Generation of Mobile Devices](http://shop.oreilly.com/product/0636920010364.do), By Zigurd Mednieks, Laird Dornin, G. Blake Meike, Masumi Nakamura, Publisher: O'Reilly Media, July 2011
+[Android Programming: The Big Nerd Ranch Guide (2nd Edition)](https://www.bignerdranch.com/we-write/android-programming/), by Bill Phillips, Chris Stewart, Brian Hardy and Kristin Marsicano
 
-* Note: much of the core material you need is freely available on-line
-* But the book provides more insight and discussion in places
-* Also many other books
-* However: mostly it is best to learn by doing!
-
-\column{.5\textwidth}
-
-\includegraphics[width = \textwidth]{graphics/book.jpg}
-
-\columnsend
+## Credits
+* Course outline/structure was based on Simon's Lucas 2014 Course
 
 
 

@@ -1,9 +1,9 @@
 ---
-title:  'Menus, Dialogs and Fragments'
+title:  'Services, Menus, Dialogs and Fragments'
 subtitle: 'CE881: Mobile and Social Application Programming'
-author: Simon Lucas \& Spyros Samothrakis
+author: Spyros Samothrakis
 tags: [nothing, nothingness]
-date: Febrary 03, 2015
+date: Febrary 01, 2016
 theme: Warsaw
 ...
 
@@ -23,14 +23,15 @@ theme: Warsaw
 
 Where's the value?
 
-# Menus
 
-## IDE Tips
 
-* Ctrl+Shift+A
-* Ctrl+B
-* Ctrl+U
-* Ctrl+J
+## In case I haven't annoyed you enough...
+
+* Learn how to touch type
+* Ctrl+Shift+A (Meta - search for shortcut/action)
+* Ctrl+B (Go to declaration)
+* Ctrl+U (Go to superclass)
+* Ctrl+J (Insert template)
 \includegraphics[width = 0.6\textwidth, angle =180, trim=0cm 0cm 0cm 7cm, clip=true]{graphics/lec4/ideashirt.jpg}
 
 \tiny http://stackoverflow.com/questions/294167/what-are-the-most-useful-intellij-idea-keyboard-shortcuts
@@ -42,6 +43,230 @@ Where's the value?
 * 20 Questions
 * 30 Minutes
 
+# Services
+
+## What is a service? 
+* App components
+* Stay in the background
+* Provide a long-running support for the app
+
+## Why us them? 
+* Runs in the background as normal even if the app is minimised
+* Not on it's own thread (unless explicitly programmed to do so )
+* Exposes non-visual functionality to third parties
+* Allows proper interprocess communication (if needed)
+
+## Can you think of some interesting services? 
+
+
+## Declaring a service
+
+* See here for more details, we will go through some
+
+~~~{.xml}
+<manifest ... >
+  ...
+  <application ... >
+      <service android:name="com.bob.megaservice" />
+      ...
+  </application>
+</manifest>
+~~~~
+
+
+## The service life cycle (1)
+
+\tiny
+
+~~~{.java}
+public class ExampleService extends Service {
+    int mStartMode;       // indicates how to behave if the service is killed
+    IBinder mBinder;      // interface for clients that bind
+    boolean mAllowRebind; // indicates whether onRebind should be used
+
+    @Override
+    public void onCreate() {
+        // The service is being created
+    }
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        // The service is starting, due to a call to startService()
+        return mStartMode;
+    }
+    @Override
+    public IBinder onBind(Intent intent) {
+        // A client is binding to the service with bindService()
+        return mBinder;
+    }
+    @Override
+    public boolean onUnbind(Intent intent) {
+        // All clients have unbound with unbindService()
+        return mAllowRebind;
+    }
+    @Override
+    public void onRebind(Intent intent) {
+        // A client is binding to the service with bindService(),
+        // after onUnbind() has already been called
+    }
+    @Override
+    public void onDestroy() {
+        // The service is no longer used and is being destroyed
+    }
+}
+
+~~~~
+
+## The Service Lifecycle (2)
+
+\includegraphics[width = 0.5\textwidth]{graphics/lec4/service_lifecycle.png}
+
+
+## Two types of service
+* Default Service
+	* Does not handle threads, must be done manually
+* Intent Service
+	* Handles requests one by one
+
+
+\tiny
+
+~~~{.java}
+public class HelloIntentService extends IntentService {
+
+  /**
+   * A constructor is required, and must call the super IntentService(String)
+   * constructor with a name for the worker thread.
+   */
+  public HelloIntentService() {
+      super("HelloIntentService");
+  }
+
+  /**
+   * The IntentService calls this method from the default worker thread with
+   * the intent that started the service. When this method returns, IntentService
+   * stops the service, as appropriate.
+   */
+  @Override
+  protected void onHandleIntent(Intent intent) {
+      // Normally we would do some work here, like download a file.
+      // For our sample, we just sleep for 5 seconds.
+      
+  }
+}
+~~~~~
+## More on services
+
+~~~{.java}
+Intent intent = new Intent(this, HelloService.class);
+startService(intent);
+~~~~
+
+* Asynchronous - When the service is finished, call some global variable 
+
+* How about remote calls - or long running service? ? 
+	* To be used if you require that the service is accessed by third party apps
+	* Provide a messaging interface
+
+## Bound service
+
+\tiny
+
+~~~{.java}
+public class MessengerService extends Service {
+  
+
+    /**
+     * Handler of incoming messages from clients.
+     */
+    class IncomingHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_REGISTER_CLIENT:
+                    mClients.add(msg.replyTo);
+                    break;
+                case MSG_UNREGISTER_CLIENT:
+                    mClients.remove(msg.replyTo);
+                    break;
+                case MSG_SET_VALUE:
+             		// dome something 
+                    break;
+                default:
+                    super.handleMessage(msg);
+            }
+        }
+    }
+
+    final Messenger mMessenger = new Messenger(new IncomingHandler());
+
+    ....
+    @Override
+    public IBinder onBind(Intent intent) {
+        return mMessenger.getBinder();
+    }
+
+  }
+
+
+~~~
+
+## How to communicate with a remote service
+
+\tiny
+
+~~~{.xml}
+<service android:name=".app.MessengerService"
+        android:process=":remote" />
+~~~~
+
+\tiny
+
+~~~{.java}
+
+// within an Activity
+private ServiceConnection mConnection = new ServiceConnection() {
+    public void onServiceConnected(ComponentName className,
+            IBinder service) {
+      
+        mService = new Messenger(service);
+       
+        try {
+            Message msg = Message.obtain(null,
+                    MessengerService.MSG_REGISTER_CLIENT);
+            msg.replyTo = mMessenger;
+            mService.send(msg);
+
+            // Give it some value as an example.
+            msg = Message.obtain(null,
+                    MessengerService.MSG_SET_VALUE, this.hashCode(), 0);
+            mService.send(msg);
+        } catch (RemoteException e) {
+            // In this case the service has crashed before we could even
+            // do anything with it; we can count on soon being
+            // disconnected (and then reconnected if it can be restarted)
+            // so there is no need to do anything here.
+        }
+
+        // As part of the sample, tell the user what happened.
+        Toast.makeText(Binding.this, R.string.remote_service_connected,
+                Toast.LENGTH_SHORT).show();
+    }
+
+    public void onServiceDisconnected(ComponentName className) {
+       
+        mService = null;
+        mCallbackText.setText("Disconnected.");
+
+        // As part of the sample, tell the user what happened.
+        Toast.makeText(Binding.this, R.string.remote_service_disconnected,
+                Toast.LENGTH_SHORT).show();
+    }
+};
+
+~~~~
+
+
+# Menus
 
 ## Types of Menu
 
@@ -319,6 +544,7 @@ fragmentTransaction.commit();
 
 
 ## Summary
+* Services!
 * With these Menus and Dialogs you can build  sophisticated  custom-designed User Interfaces for your apps
 * Practice these ideas in the lab
 * Use fragments
@@ -326,3 +552,4 @@ fragmentTransaction.commit();
 * Especially good for coping with different screen sizes
 * They are reusable modules that always belong to a parent (host) Activity
 * But are responsible for managing some lifecycle callbacks to initialise, save, and restore their state
+* Some slides based on Simon's course

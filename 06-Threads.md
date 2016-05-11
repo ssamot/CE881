@@ -1,9 +1,9 @@
 ---
 title:  'Threading and Surface Views'
 subtitle: 'CE881: Mobile and Social Application Programming'
-author: Spyros Samothrakis & Simon Lucas
+author: Spyros Samothrakis 
 tags: [nothing, nothingness]
-date: Febrary 17, 2015
+date: Febrary 15, 2016
 theme: Warsaw
 ...
 
@@ -19,6 +19,7 @@ theme: Warsaw
 
 * Ctrl + Shift + A (Meta key)
 * Alt + Insert (Generate)
+* Ctrl + left click
 
 # Threads
 ## Background
@@ -159,7 +160,7 @@ threadPool.execute(SomeRunnable())
 ## Solution: protect access via a lock
 
 \columnsbegin
-\column{.5\textwidth}
+\column{.4\textwidth}
 
 * In Java we use *synchronized* blocks/methods, or *Semaphore* class, or *volatile* keyword
 * Each thread has to wait for access to protected area
@@ -254,7 +255,7 @@ public static synchronized void inc() {
 * If you do this when using a SurfaceView in Android:
 * The App may crash
   * Disaster!
-  * Five seconds of unresponsiveness will get you 
+  * Five seconds of unresponsiveness will...
 
 ## Hello Surface View
 Some movable sprites ...
@@ -271,6 +272,19 @@ Some movable sprites ...
 \includegraphics[width = 0.8\textwidth]{graphics/lec6/surfaceapp.png}
 
 \columnsend
+
+## Model-View-{Controller, Presenter}
+
+* Controller - receives actions
+    * Controller updates Model
+        * Model deals with app logic
+          * Model Updates View
+
+* Presenter - receives actions
+    * Updates model
+    * Updates view 
+    
+
 
 ## Overview of Classes - Showing dependencies
 
@@ -469,3 +483,4 @@ Some movable sprites ...
 * Use of Threads and locking for smooth and efficient real-time apps such as games
 * Simple app discussed above provides a useful base to build on
 * Use helper classes such as Vector2d where appropriate
+* Some slides/Code by Simon Lucas

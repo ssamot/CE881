@@ -1,9 +1,9 @@
 ---
 title:  'Persistence'
 subtitle: 'CE881: Mobile and Social Application Programming'
-author: Simon Lucas & Spyros Samothrakis 
+author: Spyros Samothrakis 
 tags: [nothing, nothingness]
-date: Febrary 23, 2015
+date: Febrary 22, 2016
 theme: Warsaw
 ...
 
@@ -14,8 +14,15 @@ theme: Warsaw
   * 320GB of storage was a big thing
 * Total Recall 
 
+## Presentations
+* Week 8 (i.e. next week)
+    * No need to prepare anything
+    * Short, 5 minutes presentation on what you do
+* Week 10 (lab 10) short presentations/ questions
+* Assiment 2 to be released shortly
 
-# Overall 
+
+# Persistance 
 ## Main Approaches
 
 * Saving Key-Value pairs in preferences
@@ -201,7 +208,7 @@ public boolean isExternalStorageWritable() {
     * Some of them may have readers and writers in a variety of languages: hence can exchange object data between different languages
     * If they do what you want, they:
     * Are easy to use
-* Involve minimal programming effort
+* Involves minimal programming effort
 * We’ll look at three examples...
 
 ## Java’s Native Object Serialisation
@@ -390,7 +397,7 @@ and C# readers and writers
     * DummyDB: implement all the methods but don’t actually save the data persistently
     * DummyDB can be very useful for testing the App
 
-\column{.5\textwidth}
+\column{.4\textwidth}
 
 \includegraphics[width = 1.1\textwidth]{graphics/lec7/2.png}
 
@@ -536,4 +543,5 @@ while (!cursor.isAfterLast()) {
 * Best approach is to embed all DB access code in a separate helper class (or classes)
 * My favourite: all access goes through a DB interface class
 * Can then test rest of app using a dummy implementation
-* Work through (next week's) lab exercise
+* Work through this week's lab exercise
+* Some slides by Simon Lucas

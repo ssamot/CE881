@@ -127,3 +127,30 @@ though, the main emphasis is on the social interaction.
 Examples in this category include apps for elder-care and assisted
 living.  These can monitor the activity of a user and provide reminders
 for taking exercise and medicine for example.
+
+
+## Research Apps
+These are apps whose main purpose is not some commercial application, but exposing some 
+research question. If you are interested in a Research Project talk to me, but 
+
+* Voting
+* Generative Art
+* Recognition of food items/price comparison
+* Location aware applications - 
+* GVGA-AI / AI testing on a mobile phone 
+
+### SPOT IT 
+Research in decision making usually uses experiments to investigate different methods where participants have to take a decision from a range of possible answers (e.g., two for binary decisions). "Spot it" is an app that could help researchers in developing experiments for smartphones in an easy way, so that they can acquire data from a large range of participants. It is a game-style app where participants have to spot a target in a picture that is showed for a very limited period of time. After seeing the picture, the participant has to answer YES or NO by pressing a button.
+The app should allow the researcher to configure the experiments (for example, through an "admin area" linked to a server), including:
+a) upload the pictures that will be presented to the participants (i.e., stimuli). This might be done to a server and then the app synchronise to it when it starts by downloading all the pictures.
+b) choose how many stimuli should be presented in an experiment, the target rate (i.e., the ratio number of stimuli with target / total number of stimuli), the duration of each stimulus (e.g., 250ms)
+c) decide whether the sequence of the stimuli should be the same for all users or randomised
+d) have a button to "enable" the experiment, so that users can start doing it on their smartphones
+Every time a user does the experiment, the app should assign him/her a unique ID and make sure the same person doesn't do the experiment multiple times. It should also collect data such as the gender, the handedness and the age of the participant (e.g., by asking him/her). The results of the experiment (i.e., the answer of the user in each stimulus and the response time) should then be stored on a server and made available to the researcher to download (e.g., JSON protocol).
+
+(Thanks to Davide Valeriani for this)
+
+For a similar app see here: 
+
+[Paradigm Experiments](http://www.paradigmexperiments.com/index.html)
+

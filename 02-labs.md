@@ -15,6 +15,7 @@ app.  The lab has the following aims:
 -   To put view components together in a Layout (we'll use a
     LinearLayout)
 -   To use a Button component, including handling Button events
+-   At least attempt to use as many keyboard shortcuts as possible - see [here](https://resources.jetbrains.com/assets/products/intellij-idea/IntelliJIDEA_ReferenceCard_WL.pdf)
 
 Thanks go to Yulia Bulgakova (a CE881 student from 2012/3) for bringing
 this puzzle to my attention, and to [Alexei

@@ -134,11 +134,19 @@ In particular, note that the current version of ScoreHelper provides the
 db object, which is then passed back to it in method called such as
 addResult.  This is unnecessary.
 
-## Adding Dialogs
+## Exercise: Adding Dialogs
 
 Currently all the print out from the App goes to the Log Cat.  Change
 this so that each message goes to a Dialog which the use then has to
 dismiss to return to the main screen.
+
+## Exercise: Adding a service
+
+This is your chance to use a service: 
+
+* Create an [intentservice](http://developer.android.com/reference/android/app/IntentService.html)
+* Download some file from the internet and push a [notification](http://developer.android.com/guide/topics/ui/notifiers/notifications.html)
+* Update a db record with the file downloaded 
 
 ## Summary
 

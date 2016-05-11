@@ -9,14 +9,12 @@ $if(fonttheme)$
 \usefonttheme{$fonttheme$}
 $endif$
 
+\newcommand{\columnsbegin}{\begin{columns}}
+\newcommand{\columnsend}{\end{columns}}
 \setbeamertemplate{caption}[numbered]
 \setbeamertemplate{caption label separator}{:}
 \setbeamercolor{caption name}{fg=normal text.fg}
 \usepackage{amssymb,amsmath}
-\newcommand{\columnsbegin}{\begin{columns}}
-\newcommand{\columnsend}{\end{columns}}
-\usepackage{listings}
-
 \usepackage{ifxetex,ifluatex}
 \usepackage{fixltx2e} % provides \textsubscript
 \usepackage{lmodern}
@@ -85,6 +83,7 @@ $if(graphics)$
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
 $endif$
+\usepackage{bm}
 
 % Comment these out if you don't want a slide with just the
 % part/section/subsection/subsubsection title:
@@ -107,7 +106,7 @@ $endif$
 \usetikzlibrary{decorations.pathreplacing,calc}
 \newcommand{\tikzmark}[1]{\tikz[overlay,remember picture] \node (#1) {};}
 
-\setbeamersize{text margin left=1em,text margin right=6em}
+\setbeamersize{text margin left=2em,text margin right=2em}
 $if(strikeout)$
 \usepackage[normalem]{ulem}
 
@@ -133,12 +132,38 @@ $endif$
 $for(header-includes)$
 $header-includes$
 $endfor$
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newcommand{\twopartdef}[4]
+{
+  \left\{
+    \begin{array}{ll}
+      #1 & \mbox{if } #2 \\
+      #3 & \mbox{if } #4
+    \end{array}
+  \right.
+}
+
+\newcommand{\twopartdefo}[3]
+{
+  \left\{
+    \begin{array}{ll}
+      #1 & \mbox{if } #2 \\
+      #3 & \mbox{otherwise}
+    \end{array}
+  \right.
+}
 
 %gets rid of bottom navigation bars
 \setbeamertemplate{footline}[frame number]{}
 
 %gets rid of navigation symbols
 \setbeamertemplate{navigation symbols}{}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
 
 $if(title)$
 \title{$title$}

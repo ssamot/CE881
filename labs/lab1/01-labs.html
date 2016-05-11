@@ -28,7 +28,8 @@
 <h1 id="ce881-lab-1-introduction">CE881 Lab 1: Introduction</h1>
 <p>The aim of this lab is to gain familiarity with using a Java IDE together with the Android development tools.  You are assumed to be familiar with Java and Java IDEs in general, and ideally with Eclipse or Intellij in particular.  If not then seek assistance from the lab or module supervisor.</p>
 <div class="figure">
-<img src="img14.jpg" alt="Hello World!" /><p class="caption">Hello World!</p>
+<img src="img14.jpg" alt="Hello World!" />
+<p class="caption">Hello World!</p>
 </div>
 <p>The lab will work through various versions of a Hello World program and introduce some important concepts in the process, finishing off with a quiz.  Concepts include:</p>
 <ul>
@@ -42,11 +43,13 @@
 <p>Using your preferred IDE set up an Android project and follow the wizard to set up a default Hello World app.</p>
 <p>I’ve shown this process below for Intellij 12; other IDEs will differ in the exact steps and options available and the end result will most likely look different, but the overall goal will be similar: to implement and run the simplest possible Android App that says, in some way, “Hello World”.  <strong>Note</strong>: of course the file paths will be different for you, and the Project SDK may also be different.</p>
 <div class="figure">
-<img src="img2.jpg" alt="New Android Project" /><p class="caption">New Android Project</p>
+<img src="img2.jpg" alt="New Android Project" />
+<p class="caption">New Android Project</p>
 </div>
 <p>Choose the project name and file path (folder) then click next to get to this dialog box:</p>
 <div class="figure">
-<img src="img3.jpg" alt="Create Default Activity" /><p class="caption">Create Default Activity</p>
+<img src="img3.jpg" alt="Create Default Activity" />
+<p class="caption">Create Default Activity</p>
 </div>
 <p>Accept the defaults by clicking Finish.</p>
 <p>You are now ready to run your App.  Do this either on a real Adnroid device, or using an emulator.  From the tools menu of your IDE start the emulator.  This will give you a choice of emulators to use: the <strong>Nexus 7</strong> is a reasonable choice, allowing a good size screen view by default.</p>
@@ -63,21 +66,25 @@
 </ul>
 <p>When the emulator has started it should look something like this:</p>
 <div class="figure">
-<img src="img5.jpg" alt="Emulator Home Screen" /><p class="caption">Emulator Home Screen</p>
+<img src="img5.jpg" alt="Emulator Home Screen" />
+<p class="caption">Emulator Home Screen</p>
 </div>
 <p>When you run the App it might look something like this (top of screen only is shown)</p>
 <div class="figure">
-<img src="img6.jpg" alt="Hello World App" /><p class="caption">Hello World App</p>
+<img src="img6.jpg" alt="Hello World App" />
+<p class="caption">Hello World App</p>
 </div>
 <p>The auto-generated Activity class is shown below:</p>
 <div class="figure">
-<img src="img6.gif" alt="Activity Class Java Code" /><p class="caption">Activity Class Java Code</p>
+<img src="img6.gif" alt="Activity Class Java Code" />
+<p class="caption">Activity Class Java Code</p>
 </div>
 <p>Now, using the navigation features of your IDE, find the definition of <strong>R.layout.main</strong>. </p>
 <p>It should take you to a file called <strong>main.xml</strong> where the layout of the view is defined.  Here the root view is a container of type <strong>LinearLayout</strong>, which has a <strong>TextView</strong> with the text set to “Hello World, My Activity” as its sole child.  When creating views the widths and heights can be specified in absolute units, but it is more common to specify them in relation to parent size (e.g. fill_parent) or to their content (e.g. wrap_content). </p>
 <p><strong>Question:</strong> why do you think the <strong>TextView</strong> has defaulted to this particular specification of width and height?</p>
 <div class="figure">
-<img src="img11.jpg" alt="main.xml" /><p class="caption">main.xml</p>
+<img src="img11.jpg" alt="main.xml" />
+<p class="caption">main.xml</p>
 </div>
 <p>The <strong>onCreate</strong> method is called just prior to an application starting, and is the method where the main <strong>View</strong> should be set.  You can change the <strong>onCreate</strong> method, but be sure that you keep the <strong>super.onCreate()</strong> method call as the first line.</p>
 <h2 id="creating-a-custom-view">Creating a Custom View</h2>
@@ -85,7 +92,8 @@
 <p>We’re going to take a first look now at how to do this.  The most basic method to override is <strong>onDraw</strong>.</p>
 <p>We’ll write a <strong>View</strong> class called <strong>HelloView</strong> that displays the message “Hello World” in large letters in the middle of the View.  <strong>HelloView</strong> must extend the <strong>View</strong> class.  It must also have three constructors that call the <strong>View</strong> superclass constructor.  Your IDE should be able to auto-create these for you, such that you get this:</p>
 <div class="figure">
-<img src="img8.gif" alt="HelloView Skeleton" /><p class="caption">HelloView Skeleton</p>
+<img src="img8.gif" alt="HelloView Skeleton" />
+<p class="caption">HelloView Skeleton</p>
 </div>
 <p>Which constructor gets called depends on how the view is invoked.  Let’s label these in order as constructors 1, 2 and 3.  Modify the above constructors to print a message indicating which one was invoked.</p>
 <h2 id="android-logcat">Android Logcat</h2>
@@ -93,7 +101,8 @@
 <p>This may be done by defining a tag String within your class or within your project, and then prefixing print statements with this.  Android has a built in Log class which can be used, but you can can also use standard Java output methods (I prefer the latter approach, since this will also work when running as stand-alone Java code).</p>
 <p>The new tag definition and first constructor is:</p>
 <div class="figure">
-<img src="img2.gif" alt="Example printout" /><p class="caption">Example printout</p>
+<img src="img2.gif" alt="Example printout" />
+<p class="caption">Example printout</p>
 </div>
 <p>Rewrite the other constructors in a similar way.  Later we’ll look at the Logcat to see which one is invoked.</p>
 <p>Now we’ll override the <strong>onDraw</strong> method to say HelloWorld in large letters using some chosen colours.</p>
@@ -108,32 +117,38 @@
 <p>One other big difference between Android and awt is that Android uses <strong>float</strong>s (floating point numbers) to specify coordinates rather than <strong>int</strong>s.  This is a very welcome change!</p>
 <p>Type in the code for the onDraw method as follows.</p>
 <div class="figure">
-<img src="imgB.gif" alt="onDraw method for HelloView" /><p class="caption">onDraw method for HelloView</p>
+<img src="imgB.gif" alt="onDraw method for HelloView" />
+<p class="caption">onDraw method for HelloView</p>
 </div>
 <p>Note that this sample code includes some bad programming style: it relies on many hard-coded constants.  Don’t worry, this is just to show the basic idea of how to draw text of a particular size and to set paint colours.  You’ll write a much improved version as part of the lab. </p>
 <p> </p>
 <p>We now need to ensure that the view is actually used.  The quickest way to do this is to modify the onCreate() method of MyActivity as follows:</p>
 <div class="figure">
-<img src="imgD.gif" alt="Modified onCreate method" /><p class="caption">Modified onCreate method</p>
+<img src="imgD.gif" alt="Modified onCreate method" />
+<p class="caption">Modified onCreate method</p>
 </div>
 <p>Now when you run the App it should appear as follows (exact size will depend on the emulator used)</p>
 <div class="figure">
-<img src="imgA.jpg" alt="Hello View 1" /><p class="caption">Hello View 1</p>
+<img src="imgA.jpg" alt="Hello View 1" />
+<p class="caption">Hello View 1</p>
 </div>
 <p>While the app is running look at the Logcat (the exact details will differ depending on the IDE).  You’ll see that with the current version of the code constructor 1 was invoked:</p>
 <div class="figure">
-<img src="img10.jpg" alt="Logcat sample" /><p class="caption">Logcat sample</p>
+<img src="img10.jpg" alt="Logcat sample" />
+<p class="caption">Logcat sample</p>
 </div>
 <p><strong>Note:</strong> you can also modify an XML to incorporate the HelloView component instead of calling the HelloView constructor directly in the onCreate() method.  To do this revert to the previous onCreate implementation of MyActivity with the line:</p>
 <pre><code> setContentView(R.layout.main);</code></pre>
 <p>but add HelloView as a custom component in the <strong>main.xml</strong> file.  Try doing this both as a drag and drop operation in the GUI designer, and by editing the <strong>main.xml</strong> file in text.</p>
 <p>For example, you can replace the TextView with a HelloView:</p>
 <div class="figure">
-<img src="img7.gif" alt="XML layout with HelloView" /><p class="caption">XML layout with HelloView</p>
+<img src="img7.gif" alt="XML layout with HelloView" />
+<p class="caption">XML layout with HelloView</p>
 </div>
 <p>Or simply have HelloView as the root view:</p>
 <div class="figure">
-<img src="img12.jpg" alt="HelloView as Root" /><p class="caption">HelloView as Root</p>
+<img src="img12.jpg" alt="HelloView as Root" />
+<p class="caption">HelloView as Root</p>
 </div>
 <p><strong>Question</strong>: which constructor is invoked now when you run the App.?</p>
 <h2 id="programming-exercise">Programming Exercise</h2>
@@ -149,12 +164,14 @@
 </ol>
 <p>The following snip shows the two versions of the text: one is antialiased, can you tell which?</p>
 <div class="figure">
-<img src="HelloAntiAliased.PNG" alt="Anti Aliasing" /><p class="caption">Anti Aliasing</p>
+<img src="HelloAntiAliased.PNG" alt="Anti Aliasing" />
+<p class="caption">Anti Aliasing</p>
 </div>
 <p><strong>Tip:</strong> it is generally better to draw things with AntiAliasing on: they will look better.  Many devices will handle the extra processing in hardware: you won’t normally notice any difference in speed.</p>
 <p>A version with the text properly centred is shown below:</p>
 <div class="figure">
-<img src="img13.jpg" alt="Hello Centred Text" /><p class="caption">Hello Centred Text</p>
+<img src="img13.jpg" alt="Hello Centred Text" />
+<p class="caption">Hello Centred Text</p>
 </div>
 <p>Hint: to help achieve this you can find the bounding rectangle for the text you’re going to draw using this code within the <strong>onDraw</strong> method of <strong>HelloView</strong>:</p>
 <pre><code>Rect bounds = new Rect();
@@ -174,15 +191,18 @@ textPaint.getTextBounds(text, 0, text.length(), bounds);</code></pre>
 <p>In this very simple example, objects of class HelloView will be both the source and the destination of the onClick events.  Because they are the destination we need to declare them as handling these events.  This is done by declaring that HelloView now implements the appropriate interface, in this case: View.OnClickListener.</p>
 <p>Because <strong>HelloView</strong> is also the source of the click events, we need to register itself as the listener.  This is done via a call to <strong>setOnClickListener</strong>.  This is all illustrated as follows:</p>
 <div class="figure">
-<img src="imgC.gif" alt="Clickable HelloView" /><p class="caption">Clickable HelloView</p>
+<img src="imgC.gif" alt="Clickable HelloView" />
+<p class="caption">Clickable HelloView</p>
 </div>
 <p>Now put all this together and check that clicking anywhere on the HelloView component causes a random colour change e.g.:</p>
 <div class="figure">
-<img src="imgE.jpg" alt="Hello Random World" /><p class="caption">Hello Random World</p>
+<img src="imgE.jpg" alt="Hello Random World" />
+<p class="caption">Hello Random World</p>
 </div>
 <p>Finally, this is my garish example of using radial and linear gradient shaders: (i.e. my solution to part 6 of the programming exercise).</p>
 <div class="figure">
-<img src="img15.jpg" alt="Gradient Shaders" /><p class="caption">Gradient Shaders</p>
+<img src="img15.jpg" alt="Gradient Shaders" />
+<p class="caption">Gradient Shaders</p>
 </div>
 <p> </p>
 <h2 id="quiz">Quiz</h2>

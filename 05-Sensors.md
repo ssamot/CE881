@@ -3,7 +3,7 @@ title:  'Sensors'
 subtitle: 'CE881: Mobile and Social Application Programming'
 author: Spyros Samothrakis
 tags: [nothing, nothingness]
-date: Febrary 10, 2015
+date: Febrary 08, 2015
 theme: Warsaw
 ...
 
@@ -22,13 +22,48 @@ theme: Warsaw
 
 ## IDE Tips (Again!)
 
-* Ctrl+Shift+A
-* Ctrl+B
-* Ctrl+U
-* Ctrl+J
-\includegraphics[width = 0.6\textwidth, angle =180, trim=0cm 0cm 0cm 7cm, clip=true]{graphics/lec4/ideashirt.jpg}
+* ctrl + left click 
+  * Takes you to method/class/whatever definition
+  * Use it!!!
 
-\tiny http://stackoverflow.com/questions/294167/what-are-the-most-useful-intellij-idea-keyboard-shortcuts
+# Some interesting questions
+
+## Question that have popped up in the course so far
+
+* Java annotations
+  * Supported since Java 5
+  * Some annotations are used by the compiler or the IDE  (e.g. "@Override", "@Deprecated" )
+    * You can remove them and the compiled code will do exaclty the same thing
+  * Runtime annotations
+    * Change the behaviour of the code
+    * e.g., create an annotation to retry
+    * http://aspects.jcabi.com/
+
+
+## Example
+
+~~~{.java}
+public class MyResource {
+  @RetryOnFailure
+  public String load(URL url) {
+    return url.openConnection().getContent();
+  }
+}
+~~~~
+
+## Testing
+* You don't have to unit test
+* You have to have a software testing schedule
+  * Even if manual
+* State what you will test and how
+* Unit tests should help catch errors
+
+
+## Model-View-Controller
+* The default architecture
+* You need to update the model!
+* More on this later
+
 
 # Sensors
 

@@ -21,7 +21,8 @@
 <li><a href="#exercise-dummydb-1">Exercise: DummyDB 1</a></li>
 <li><a href="#exercise-dummydb-2">Exercise: DummyDB 2</a></li>
 <li><a href="#exercise-sqlitedb">Exercise: SQLiteDB</a></li>
-<li><a href="#adding-dialogs">Adding Dialogs</a></li>
+<li><a href="#exercise-adding-dialogs">Exercise: Adding Dialogs</a></li>
+<li><a href="#exercise-adding-a-service">Exercise: adding a service</a></li>
 <li><a href="#summary">Summary</a></li>
 </ul></li>
 </ul>
@@ -38,39 +39,48 @@
 <p>Begin by downloading and running the current app SQLiteActivity from .zip file <a href="../samples/SQLiteTest.zip">here</a>.</p>
 <p>This is the version demonstrated in the lecture.  Experiment with running the code.  When run it should present the following buttons:</p>
 <div class="figure">
-<img src="img3.jpg" alt="SQLiteTest" /><p class="caption">SQLiteTest</p>
+<img src="img3.jpg" alt="SQLiteTest" />
+<p class="caption">SQLiteTest</p>
 </div>
 <p>Check the operation of each one by monitoring the Log Cat using the string “SQLiteActivity Test:” as a filter.</p>
 <p>Spend some time studying the code.  It already contains a Score class and a ScoreDB interface, but these are currently not used.</p>
 <p>ScoreDBInterface and Score are defined as follows:</p>
 <div class="figure">
-<img src="ScoreDBInterface.PNG" alt="ScoreDBInterface" /><p class="caption">ScoreDBInterface</p>
+<img src="ScoreDBInterface.PNG" alt="ScoreDBInterface" />
+<p class="caption">ScoreDBInterface</p>
 </div>
 <div class="figure">
-<img src="Score.PNG" alt="Score class" /><p class="caption">Score class</p>
+<img src="Score.PNG" alt="Score class" />
+<p class="caption">Score class</p>
 </div>
 <p>The ScoreDBContract class is not really a contract, but just a list of all the column heading names used in the ScoreDB.  By using these constants we can be sure to always call a column header (attribute) by its correct name.</p>
 <div class="figure">
-<img src="ScoreDBContract.PNG" alt="ScoreDBContract" /><p class="caption">ScoreDBContract</p>
+<img src="ScoreDBContract.PNG" alt="ScoreDBContract" />
+<p class="caption">ScoreDBContract</p>
 </div>
 <p>The interface definition is simple but useful: it shows all the ways in which the rest of the code in the app is allowed to interact with the database.  Note that it implements an Android class called BaseColumns which has the following definition, providing standard names for <strong>_ID</strong> and <strong>_COUNT</strong> columns.</p>
 <div class="figure">
-<img src="BaseColumns.PNG" alt="BaseColumns" /><p class="caption">BaseColumns</p>
+<img src="BaseColumns.PNG" alt="BaseColumns" />
+<p class="caption">BaseColumns</p>
 </div>
 <p>We now move on to the main activity class, SQLiteActivity.  The onCreate method performs some routine initialisation, calling a method to add some buttons and setting up the layout from an XML file.</p>
 <div class="figure">
-<img src="Main%20Activity%20onCreate.PNG" alt="SQLiteActivity onCreate" /><p class="caption">SQLiteActivity onCreate</p>
+<img src="Main%20Activity%20onCreate.PNG" alt="SQLiteActivity onCreate" />
+<p class="caption">SQLiteActivity onCreate</p>
 </div>
 <p>The addButtons method of SQLiteActivity has code of the following form, where an in-line handler is added for each button.  The example shown is for the “create” button, but the others follow a similar pattern (though the code is more complex in some places).</p>
 <div class="figure">
-<img src="Main%20Activity%20add%20buttons.PNG" alt="Main Activity Add Buttons" /><p class="caption">Main Activity Add Buttons</p>
+<img src="Main%20Activity%20add%20buttons.PNG" alt="Main Activity Add Buttons" />
+<p class="caption">Main Activity Add Buttons</p>
 </div>
 <p>The final class to study is the <strong>ScoreHelper</strong> class which extends the built in SQLiteOpenHelper class.  This manages the connection with the database.  It defines useful SQL strings that will be executed on the database, and has methods that use these Strings and construct others dynamically on demand to create tables and insert data etc.  The methods for creating a table and adding an entry are shown below.  Note how they take an SQLiteDatabase object (<strong>db</strong>) as an argument passed from the calling activity.</p>
 <div class="figure">
-<img src="ScoreHelper%20onCreate.PNG" alt="Score Helper onCreate" /><p class="caption">Score Helper onCreate</p>
+<img src="ScoreHelper%20onCreate.PNG" alt="Score Helper onCreate" />
+<p class="caption">Score Helper onCreate</p>
 </div>
 <div class="figure">
-<img src="addEntry.PNG" alt="ScoreHelper addEntry" /><p class="caption">ScoreHelper addEntry</p>
+<img src="addEntry.PNG" alt="ScoreHelper addEntry" />
+<p class="caption">ScoreHelper addEntry</p>
 </div>
 <p>In the addEntry method note how the ContentValues object is used as a map to store the required value for each column, which is then passed to the db.insert method.</p>
 <p>Now you are familar with the code, attempt the following exercies.</p>
@@ -86,8 +96,10 @@
 <h2 id="exercise-sqlitedb">Exercise: SQLiteDB</h2>
 <p>Now write an SQLite implementation of the ScoreDB interface.  This can be based closely on the existing class ScoreHelper class, but will need some modification in order to match the ScoreDB interface.</p>
 <p>In particular, note that the current version of ScoreHelper provides the db object, which is then passed back to it in method called such as addResult.  This is unnecessary.</p>
-<h2 id="adding-dialogs">Adding Dialogs</h2>
+<h2 id="exercise-adding-dialogs">Exercise: Adding Dialogs</h2>
 <p>Currently all the print out from the App goes to the Log Cat.  Change this so that each message goes to a Dialog which the use then has to dismiss to return to the main screen.</p>
+<h2 id="exercise-adding-a-service">Exercise: adding a service</h2>
+<p>This is your chance to use a service: * Create an <a href="http://developer.android.com/reference/android/app/IntentService.html">intentservice</a> * Download some file from the internet and push a <a href="http://developer.android.com/guide/topics/ui/notifiers/notifications.html">notification</a> * Update a db record with the file downloaded</p>
 <h2 id="summary">Summary</h2>
 <p>In this lab we took some existing SQLite demo code and refactored it and further developed it to show that appropriate structuring of the DB access code can lead to clean and easy to understand code which is also highly re-usable.  Furthermore, the idea of using a dummy implementation of the database interface was also explored.  This enables to the App to be tested quickly without relying on the real DB code which often takes more effort to develop.</p>
 <p> </p>

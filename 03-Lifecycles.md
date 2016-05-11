@@ -1,7 +1,7 @@
 ---
 title:  'Components, Activity Lifecycle and Intents'
 subtitle: 'CE881: Mobile and Social Application Programming'
-author: Simon Lucas \& Spyros Samothrakis
+author: Spyros Samothrakis
 tags: [nothing, nothingness]
 date: January 23, 2015
 theme: Warsaw
@@ -17,6 +17,19 @@ theme: Warsaw
 	* Up in the air
 * Businessweek
 
+## Keyboard propaganda (1)
+
+\includegraphics[scale = 0.35, page = 1]{graphics/IntelliJIDEA_ReferenceCard_WL.pdf}
+
+## Keyboard propaganda (2)
+* Learn how to touch type
+* Ctrl+Shift+A (Meta - search for shortcut/action)
+* Ctrl+B (Go to declaration)
+* Ctrl+U (Go to superclass)
+* Ctrl+J (Insert template)
+\includegraphics[width = 0.6\textwidth, angle =180, trim=0cm 0cm 0cm 7cm, clip=true]{graphics/lec4/ideashirt.jpg}
+
+\tiny http://stackoverflow.com/questions/294167/what-are-the-most-useful-intellij-idea-keyboard-shortcuts
 
 
 ## Apps

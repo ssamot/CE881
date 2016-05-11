@@ -33,6 +33,23 @@ things each time it receives a GPS update: it updates the current
 position by setting the text in a TextView, and it appends the data to a
 file.
 
+Note that the simulator does not produce GPS update events by default. One however can telnet to the emulator and provide the correct signals. You can find a script, developed by Davide Valeriani that will help you receive dummy GPS updates below.
+
+~~~{.python}
+import telnetlib as tn
+import random
+import time
+
+t = tn.Telnet("127.0.0.1", 5554)
+
+while True:
+    random_long = random.random()*20
+    random_lat = random.random()*20
+    t.write("geo fix "+str(random_long)+" "+str(random_lat)+"\n")
+    time.sleep(1)
+
+~~~~ 
+
 The GPS listening code was developed by adapting the example in the
 [Location
 Strategies](http://developer.android.com/guide/topics/location/strategies.html).
